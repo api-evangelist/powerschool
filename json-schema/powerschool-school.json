@@ -1,0 +1,131 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/powerschool/main/json-schema/powerschool-school.json",
+  "title": "PowerSchool School",
+  "description": "A school record from the PowerSchool SIS REST API (/ws/v1/district/school). Schools are organizational units within a district, serving a range of grade levels.",
+  "type": "object",
+  "required": ["id"],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "School DCID — district-wide unique identifier. Use in API path parameters."
+    },
+    "school_number": {
+      "type": "integer",
+      "description": "Local school number assigned by the district."
+    },
+    "name": {
+      "type": "string",
+      "description": "Full name of the school."
+    },
+    "state_province_id": {
+      "type": "string",
+      "description": "State or province abbreviation (e.g., TX, CA)."
+    },
+    "low_grade": {
+      "type": "integer",
+      "description": "Lowest grade level: -2 or -1 for pre-K, 0 for Kindergarten, 1-12 for grades 1-12.",
+      "minimum": -2,
+      "maximum": 12
+    },
+    "high_grade": {
+      "type": "integer",
+      "description": "Highest grade level served.",
+      "minimum": -2,
+      "maximum": 12
+    },
+    "alternate_school_number": {
+      "type": "integer",
+      "description": "Alternate school number if applicable (e.g., state reporting number)."
+    },
+    "addresses": {
+      "type": "object",
+      "description": "School address collection.",
+      "properties": {
+        "home": { "$ref": "#/definitions/Address" },
+        "mailing": { "$ref": "#/definitions/Address" },
+        "physical": { "$ref": "#/definitions/Address" }
+      }
+    },
+    "phones": {
+      "type": "object",
+      "description": "School phone numbers.",
+      "properties": {
+        "main": { "$ref": "#/definitions/PhoneNumber" },
+        "fax": { "$ref": "#/definitions/PhoneNumber" }
+      }
+    },
+    "principal": {
+      "$ref": "#/definitions/Principal",
+      "description": "Principal contact information."
+    },
+    "assistant_principal": {
+      "$ref": "#/definitions/Principal",
+      "description": "Assistant principal contact information."
+    }
+  },
+  "definitions": {
+    "Address": {
+      "type": "object",
+      "properties": {
+        "city": { "type": "string" },
+        "postal_code": { "type": "integer" },
+        "state_province": { "type": "string" },
+        "street": { "type": "string" }
+      }
+    },
+    "PhoneNumber": {
+      "type": "object",
+      "properties": {
+        "number": { "type": "string" }
+      }
+    },
+    "Principal": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Principal's email address."
+        },
+        "name": {
+          "type": "object",
+          "properties": {
+            "first_name": { "type": "string" },
+            "middle_name": { "type": "string" },
+            "last_name": { "type": "string" }
+          }
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "id": 5001,
+      "school_number": 101,
+      "name": "Lincoln Elementary School",
+      "state_province_id": "TX",
+      "low_grade": 0,
+      "high_grade": 5,
+      "addresses": {
+        "physical": {
+          "street": "500 Oak Ave",
+          "city": "Austin",
+          "state_province": "TX",
+          "postal_code": 78702
+        }
+      },
+      "phones": {
+        "main": { "number": "512-555-0200" },
+        "fax": { "number": "512-555-0201" }
+      },
+      "principal": {
+        "email": "principal@lincoln.austinisd.edu",
+        "name": {
+          "first_name": "Margaret",
+          "last_name": "Johnson"
+        }
+      }
+    }
+  ]
+}

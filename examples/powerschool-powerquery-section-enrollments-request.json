@@ -1,0 +1,37 @@
+{
+  "_description": "PowerQuery request to get student enrollments for one or more course sections. POST to /ws/schema/query/com.pearson.core.teachers.sectionEnrollments with an array of section DCIDs.",
+  "_endpoint": "POST /ws/schema/query/com.pearson.core.teachers.sectionEnrollments",
+  "_headers": {
+    "Authorization": "Bearer {access_token}",
+    "Content-Type": "application/json",
+    "Accept": "application/json"
+  },
+  "section_dcid": [
+    "88901",
+    "88902"
+  ],
+  "_example_response": {
+    "record": [
+      {
+        "dcid": "100234",
+        "first_name": "Jane",
+        "last_name": "Doe",
+        "lastfirst": "Doe, Jane",
+        "grade_level": "6",
+        "gender": "F",
+        "id": "54321",
+        "student_number": "54321"
+      },
+      {
+        "dcid": "100235",
+        "first_name": "Benjamin",
+        "last_name": "Smith",
+        "lastfirst": "Smith, Benjamin",
+        "grade_level": "7",
+        "gender": "M",
+        "id": "54322",
+        "student_number": "54322"
+      }
+    ]
+  }
+}

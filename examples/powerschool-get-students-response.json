@@ -1,0 +1,67 @@
+{
+  "students": {
+    "student": [
+      {
+        "id": 100234,
+        "local_id": 54321,
+        "student_username": "jdoe2028",
+        "name": {
+          "first_name": "Jane",
+          "middle_name": "Marie",
+          "last_name": "Doe"
+        },
+        "demographics": {
+          "birth_date": "2012-08-15",
+          "district_entry_date": "2018-09-04",
+          "gender": "F",
+          "projected_graduation_year": 2028
+        },
+        "addresses": {
+          "home": {
+            "city": "Austin",
+            "postal_code": 78701,
+            "state_province": "TX",
+            "street": "123 Main St"
+          }
+        },
+        "phones": {
+          "home_phone": {
+            "number": "512-555-0100"
+          }
+        }
+      },
+      {
+        "id": 100235,
+        "local_id": 54322,
+        "student_username": "bsmith2027",
+        "name": {
+          "first_name": "Benjamin",
+          "middle_name": "James",
+          "last_name": "Smith"
+        },
+        "demographics": {
+          "birth_date": "2011-03-22",
+          "district_entry_date": "2017-09-05",
+          "gender": "M",
+          "projected_graduation_year": 2027
+        },
+        "addresses": {
+          "home": {
+            "city": "Austin",
+            "postal_code": 78704,
+            "state_province": "TX",
+            "street": "456 Elm Street"
+          }
+        },
+        "phones": {
+          "home_phone": {
+            "number": "512-555-0102"
+          },
+          "main": {
+            "number": "512-555-0103"
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/powerschool/main/json-schema/powerschool-section.json",
+  "title": "PowerSchool Section",
+  "description": "A course section from the PowerSchool SIS REST API (/ws/v1/school/{schoolDcid}/section). A section is a specific scheduled offering of a course, linking a course, teacher, time period, and enrolled students.",
+  "type": "object",
+  "required": ["id"],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Section DCID — district-wide unique identifier. Also referenced as 'dcid' in SDK code."
+    },
+    "course_id": {
+      "type": "integer",
+      "description": "DCID of the course this section is an offering of."
+    },
+    "section_number": {
+      "type": "integer",
+      "description": "Section number within the course."
+    },
+    "expression": {
+      "type": "string",
+      "description": "Period expression string used internally (e.g., '1(A)')."
+    },
+    "external_expression": {
+      "type": "string",
+      "description": "Human-readable period label for display (e.g., 'Period 1')."
+    },
+    "gradebooktype": {
+      "type": "string",
+      "description": "Gradebook type identifier controlling grading method for this section."
+    },
+    "school_id": {
+      "type": "integer",
+      "description": "DCID of the school where this section meets."
+    },
+    "staff_id": {
+      "type": "integer",
+      "description": "DCID of the staff member (teacher) assigned to this section."
+    },
+    "term_id": {
+      "type": "integer",
+      "description": "DCID of the academic term during which this section is offered."
+    }
+  },
+  "examples": [
+    {
+      "id": 88901,
+      "course_id": 4401,
+      "section_number": 2,
+      "expression": "3(A)",
+      "external_expression": "Period 3",
+      "gradebooktype": "1",
+      "school_id": 5001,
+      "staff_id": 22345,
+      "term_id": 300100
+    }
+  ]
+}

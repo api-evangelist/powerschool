@@ -1,0 +1,145 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/powerschool/main/json-schema/powerschool-student.json",
+  "title": "PowerSchool Student",
+  "description": "A student record from the PowerSchool SIS REST API (/ws/v1/district/student/{id}). Students are identified by DCID (id field), local student number (local_id), and portal username.",
+  "type": "object",
+  "required": ["id"],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Student DCID — the district-wide unique identifier. Use this in API path parameters."
+    },
+    "local_id": {
+      "type": "integer",
+      "description": "Student number — local identifier used within the district (e.g., on ID cards)."
+    },
+    "student_username": {
+      "type": "string",
+      "description": "Student portal login username."
+    },
+    "name": {
+      "type": "object",
+      "description": "Student name components.",
+      "properties": {
+        "first_name": {
+          "type": "string",
+          "description": "Given/first name."
+        },
+        "middle_name": {
+          "type": "string",
+          "description": "Middle name."
+        },
+        "last_name": {
+          "type": "string",
+          "description": "Surname/family name."
+        }
+      }
+    },
+    "demographics": {
+      "type": "object",
+      "description": "Demographic information.",
+      "properties": {
+        "birth_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Date of birth in YYYY-MM-DD format."
+        },
+        "district_entry_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Date the student first enrolled in the district."
+        },
+        "gender": {
+          "type": "string",
+          "description": "Gender as defined by the district (e.g., M, F, or extended values)."
+        },
+        "projected_graduation_year": {
+          "type": "integer",
+          "description": "Expected graduation year (e.g., 2028)."
+        }
+      }
+    },
+    "addresses": {
+      "type": "object",
+      "description": "Address collection for the student.",
+      "properties": {
+        "home": { "$ref": "#/definitions/Address" },
+        "mailing": { "$ref": "#/definitions/Address" },
+        "physical": { "$ref": "#/definitions/Address" }
+      }
+    },
+    "phones": {
+      "type": "object",
+      "description": "Phone numbers for the student.",
+      "properties": {
+        "fax": { "$ref": "#/definitions/PhoneNumber" },
+        "home_phone": { "$ref": "#/definitions/PhoneNumber" },
+        "main": { "$ref": "#/definitions/PhoneNumber" }
+      }
+    }
+  },
+  "definitions": {
+    "Address": {
+      "type": "object",
+      "properties": {
+        "city": {
+          "type": "string",
+          "description": "City name."
+        },
+        "postal_code": {
+          "type": "integer",
+          "description": "ZIP or postal code."
+        },
+        "state_province": {
+          "type": "string",
+          "description": "State or province abbreviation (e.g., CA, TX)."
+        },
+        "street": {
+          "type": "string",
+          "description": "Street address."
+        }
+      }
+    },
+    "PhoneNumber": {
+      "type": "object",
+      "properties": {
+        "number": {
+          "type": "string",
+          "description": "Phone number string (format varies by district)."
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "id": 100234,
+      "local_id": 54321,
+      "student_username": "jdoe2028",
+      "name": {
+        "first_name": "Jane",
+        "middle_name": "Marie",
+        "last_name": "Doe"
+      },
+      "demographics": {
+        "birth_date": "2012-08-15",
+        "district_entry_date": "2018-09-04",
+        "gender": "F",
+        "projected_graduation_year": 2028
+      },
+      "addresses": {
+        "home": {
+          "city": "Austin",
+          "postal_code": 78701,
+          "state_province": "TX",
+          "street": "123 Main St"
+        }
+      },
+      "phones": {
+        "home_phone": {
+          "number": "512-555-0100"
+        }
+      }
+    }
+  ]
+}

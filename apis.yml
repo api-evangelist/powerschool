@@ -55,6 +55,8 @@ apis:
         url: https://support.powerschool.com/developer/
       - type: Authentication
         url: https://support.powerschool.com/developer/
+      - type: OpenAPI
+        url: openapi/powerschool-powerschool-sis-api-openapi.yml
     contact:
       - FN: PowerSchool Developer Support
         url: https://help.powerschool.com/
@@ -81,6 +83,16 @@ common:
     url: rate-limits/powerschool-rate-limits.yml
   - type: FinOps
     url: finops/powerschool-finops.yml
+  - type: Vocabulary
+    url: vocabulary/powerschool-vocabulary.yml
+  - type: JsonLd
+    url: json-ld/powerschool-context.jsonld
+  - type: JSONSchema
+    url: json-schema/powerschool-student.json
+  - type: JSONSchema
+    url: json-schema/powerschool-school.json
+  - type: JSONSchema
+    url: json-schema/powerschool-section.json
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

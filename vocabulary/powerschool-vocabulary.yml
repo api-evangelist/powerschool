@@ -1,0 +1,258 @@
+vocabulary:
+  aid: powerschool
+  name: PowerSchool SIS API Vocabulary
+  description: >-
+    Domain vocabulary for the PowerSchool Student Information System (SIS) REST
+    API covering K-12 education data including students, schools, courses,
+    sections, attendance, and grades.
+  url: https://support.powerschool.com/developer/
+  version: 1.0.0
+  tags:
+    - K-12
+    - Education
+    - SIS
+    - EdTech
+  terms:
+    - term: DCID
+      label: District Context ID
+      description: >-
+        A district-wide unique integer identifier assigned to every object in the
+        PowerSchool database. DCIDs are immutable and preferred over local IDs
+        when referencing records via the API. Different from the record's local
+        "id" or "school_number" fields.
+      type: identifier
+      example: "12345"
+
+    - term: student
+      label: Student
+      description: >-
+        A K-12 learner enrolled in a district. Student records include
+        demographics (name, birth date, gender, grade level), contact information
+        (addresses, phone numbers), enrollment status, and login credentials for
+        the student portal. Students are identified by DCID (id field), local_id
+        (student number), and student_username.
+      type: entity
+      properties:
+        - id: Student DCID
+        - local_id: District-assigned student number
+        - student_username: Portal login username
+        - name: Name object (first_name, middle_name, last_name)
+        - demographics: Demographics object (birth_date, gender, grade level)
+        - addresses: Address collection (home, mailing, physical)
+        - phones: Phone number collection
+
+    - term: school
+      label: School
+      description: >-
+        An individual school building or program within a district. Schools
+        contain courses, sections, students, and staff. Each school has a DCID,
+        a local school_number, grade range (low_grade to high_grade), contact
+        information, and principal data.
+      type: entity
+      properties:
+        - id: School DCID
+        - school_number: Local school identifier
+        - name: School name
+        - low_grade: Lowest grade level served
+        - high_grade: Highest grade level served
+        - state_province_id: State or province
+
+    - term: course
+      label: Course
+      description: >-
+        An academic course in the district course catalog. Courses are distinct
+        from sections—a course represents the subject matter (e.g., "Algebra I"),
+        while a section is a specific scheduled offering. Identified by DCID (id)
+        and course_number.
+      type: entity
+      properties:
+        - id: Course DCID
+        - course_number: Course code (e.g., MATH101)
+        - course_name: Full descriptive name
+
+    - term: section
+      label: Section
+      description: >-
+        A scheduled offering of a course within a school term and period.
+        Sections connect a course to a teacher, time slot (expression), room,
+        and set of enrolled students. Each section belongs to a school, a course,
+        a term, and a staff member.
+      type: entity
+      properties:
+        - id: Section DCID
+        - course_id: Parent course DCID
+        - section_number: Section number
+        - expression: Period expression string
+        - school_id: School DCID
+        - staff_id: Teacher DCID
+        - term_id: Term DCID
+
+    - term: district
+      label: District
+      description: >-
+        A school district, which is the top-level organizational unit in
+        PowerSchool. Districts contain one or more schools and all student,
+        staff, and course records. API base URLs are district-specific
+        ({district}.powerschool.com).
+      type: entity
+
+    - term: term
+      label: Term
+      description: >-
+        An academic term or grading period (e.g., "Fall Semester 2024-25",
+        "Quarter 1"). Terms define the date range during which sections are
+        offered and grades are recorded. Terms can be nested with a parentTermID.
+      type: entity
+      properties:
+        - id: Term DCID
+        - title: Term display name
+        - start_date: Term start date
+        - end_date: Term end date
+        - parentTermId: Parent term DCID (0 if top-level)
+        - school_number: School this term belongs to
+
+    - term: attendance
+      label: Attendance Record
+      description: >-
+        A record of a deviation from normal student attendance, such as an
+        absence or tardy. Records include an attendance code, date, period,
+        school, and optional comment. Attendance codes classify the type of
+        absence (excused, unexcused, etc.).
+      type: entity
+      properties:
+        - id: Attendance record ID
+        - attCodeid: Attendance code ID
+        - attDate: Date of the attendance event
+        - attComment: Optional teacher/staff comment
+        - schoolid: School DCID
+        - periodid: Period ID
+        - studentid: Student ID
+        - totalMinutes: Minutes accounted for
+
+    - term: attendance_code
+      label: Attendance Code
+      description: >-
+        A classification code for attendance events. Codes define whether an
+        absence is excused, unexcused, a tardy, or another category. Each
+        school maintains its own set of attendance codes.
+      type: entity
+
+    - term: final_grade
+      label: Final Grade
+      description: >-
+        The grade assigned to a student at the end of a reporting term for a
+        given course section. Includes a letter/display grade, a percentage
+        value (0-1), the date stored, and an optional teacher comment.
+      type: entity
+      properties:
+        - id: Final grade ID
+        - grade: Display grade (letter or percentage string)
+        - percent: Numeric percentage value
+        - dateStored: Date the grade was recorded
+        - reportingTermId: Reporting term DCID
+        - sectionid: Section DCID
+
+    - term: assignment
+      label: Assignment
+      description: >-
+        An individual graded task within a course section, such as a homework,
+        quiz, project, or test. Assignments belong to a section and an
+        assignment category. They have a due date, weight, and publish settings.
+      type: entity
+      properties:
+        - id: Assignment ID
+        - assignmentid: Secondary assignment identifier
+        - name: Assignment name
+        - abbreviation: Short name
+        - categoryId: Category ID
+        - sectionid: Section DCID
+        - dueDate: Assignment due date
+        - weight: Grade weight
+        - includeinfinalgrades: Whether it affects final grade
+
+    - term: assignment_score
+      label: Assignment Score
+      description: >-
+        A student's score on a specific assignment. Links a student to an
+        assignment with their earned score, letter grade, and exemption status.
+      type: entity
+
+    - term: power_query
+      label: PowerQuery
+      description: >-
+        A server-side named query in PowerSchool that provides access to
+        complex, pre-defined data sets not available through standard REST
+        endpoints. PowerQueries are identified by a dotted namespace
+        (e.g., com.pearson.core.teachers.sectionEnrollments) and are
+        invoked via POST to /ws/schema/query/{queryName}. They can accept
+        filter parameters in the request body.
+      type: concept
+      example: com.pearson.core.teachers.sectionEnrollments
+
+    - term: schema_table
+      label: Schema Table
+      description: >-
+        A direct database table accessible via the PowerSchool API at
+        /ws/schema/table/{tableName}. Schema tables provide low-level access
+        to PowerSchool's underlying data store. Common tables include students,
+        schools, sections, cc (current courses), and attendance.
+      type: concept
+
+    - term: plugin
+      label: Plugin
+      description: >-
+        A PowerSchool plugin is an integration registered in the Plugin
+        Management Dashboard. Plugins receive a client_id and client_secret
+        for OAuth 2.0 authentication. Plugins define permissions scopes
+        for the data they can access.
+      type: concept
+
+    - term: oauth_client_credentials
+      label: OAuth 2.0 Client Credentials
+      description: >-
+        The authentication grant type used by the PowerSchool API. Clients
+        POST to /oauth/access_token/ with a Base64-encoded client_id:client_secret
+        in the Authorization header and grant_type=client_credentials in the body.
+        The response contains a Bearer token valid for a limited time period.
+      type: concept
+
+    - term: reporting_term
+      label: Reporting Term
+      description: >-
+        A subdivision of an academic term used for grade reporting purposes.
+        Reporting terms define the windows in which final grades are calculated
+        and reported. They have a title, start/end dates, and may be nested
+        within a parent term.
+      type: entity
+
+    - term: period
+      label: Period
+      description: >-
+        A time slot in the school day during which a section meets. Periods
+        are identified by an ID and have an expression string used for
+        scheduling. The external_expression is the human-readable period label.
+      type: entity
+
+    - term: teacher
+      label: Teacher / Staff
+      description: >-
+        A staff member who teaches course sections. Teachers are identified by
+        a staff DCID (staff_id on sections). Staff data includes name, email,
+        and school assignment.
+      type: entity
+
+    - term: enrollment
+      label: Enrollment
+      description: >-
+        The assignment of a student to a course section (also called CC or
+        Current Courses in PowerSchool). Enrollment records link students to
+        sections for a given term.
+      type: entity
+
+    - term: grade_level
+      label: Grade Level
+      description: >-
+        The academic grade a student is enrolled in. Represented as integers
+        where -2 = pre-K, -1 = pre-K, 0 = Kindergarten, 1-12 = grades 1-12.
+        Used in both student demographics and school grade range settings.
+      type: concept

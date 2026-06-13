@@ -1,0 +1,79 @@
+{
+  "schools": {
+    "school": [
+      {
+        "id": 5001,
+        "school_number": 101,
+        "name": "Lincoln Elementary School",
+        "state_province_id": "TX",
+        "low_grade": 0,
+        "high_grade": 5,
+        "alternate_school_number": 101,
+        "addresses": {
+          "physical": {
+            "street": "500 Oak Ave",
+            "city": "Austin",
+            "state_province": "TX",
+            "postal_code": 78702
+          },
+          "mailing": {
+            "street": "PO Box 1001",
+            "city": "Austin",
+            "state_province": "TX",
+            "postal_code": 78702
+          }
+        },
+        "phones": {
+          "main": {
+            "number": "512-555-0200"
+          },
+          "fax": {
+            "number": "512-555-0201"
+          }
+        },
+        "principal": {
+          "email": "mjohnson@austinisd.edu",
+          "name": {
+            "first_name": "Margaret",
+            "last_name": "Johnson"
+          }
+        },
+        "assistant_principal": {
+          "email": "rgarcia@austinisd.edu",
+          "name": {
+            "first_name": "Roberto",
+            "last_name": "Garcia"
+          }
+        }
+      },
+      {
+        "id": 5002,
+        "school_number": 102,
+        "name": "Jefferson Middle School",
+        "state_province_id": "TX",
+        "low_grade": 6,
+        "high_grade": 8,
+        "addresses": {
+          "physical": {
+            "street": "800 Pine Street",
+            "city": "Austin",
+            "state_province": "TX",
+            "postal_code": 78703
+          }
+        },
+        "phones": {
+          "main": {
+            "number": "512-555-0300"
+          }
+        },
+        "principal": {
+          "email": "kwilliams@austinisd.edu",
+          "name": {
+            "first_name": "Karen",
+            "last_name": "Williams"
+          }
+        }
+      }
+    ]
+  }
+}

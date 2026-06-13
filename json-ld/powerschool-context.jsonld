@@ -1,0 +1,166 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "ps": "https://support.powerschool.com/developer/vocab#",
+    "edfi": "https://api.ed-fi.org/v5.3/api/data/v3/",
+
+    "Student": {
+      "@id": "schema:Student",
+      "@context": {
+        "id": { "@id": "ps:dcid", "@type": "xsd:integer" },
+        "local_id": { "@id": "ps:studentNumber", "@type": "xsd:integer" },
+        "student_username": { "@id": "ps:studentUsername", "@type": "xsd:string" },
+        "name": { "@id": "schema:name" },
+        "demographics": { "@id": "ps:demographics" },
+        "addresses": { "@id": "schema:address" },
+        "phones": { "@id": "schema:telephone" }
+      }
+    },
+
+    "School": {
+      "@id": "schema:School",
+      "@context": {
+        "id": { "@id": "ps:dcid", "@type": "xsd:integer" },
+        "school_number": { "@id": "ps:schoolNumber", "@type": "xsd:integer" },
+        "name": { "@id": "schema:name", "@type": "xsd:string" },
+        "low_grade": { "@id": "ps:lowestGrade", "@type": "xsd:integer" },
+        "high_grade": { "@id": "ps:highestGrade", "@type": "xsd:integer" },
+        "state_province_id": { "@id": "schema:addressRegion", "@type": "xsd:string" },
+        "addresses": { "@id": "schema:address" },
+        "phones": { "@id": "schema:telephone" },
+        "principal": { "@id": "schema:alumni" },
+        "assistant_principal": { "@id": "ps:assistantPrincipal" }
+      }
+    },
+
+    "Course": {
+      "@id": "schema:Course",
+      "@context": {
+        "id": { "@id": "ps:dcid", "@type": "xsd:integer" },
+        "course_number": { "@id": "schema:courseCode", "@type": "xsd:string" },
+        "course_name": { "@id": "schema:name", "@type": "xsd:string" }
+      }
+    },
+
+    "Section": {
+      "@id": "ps:Section",
+      "@context": {
+        "id": { "@id": "ps:dcid", "@type": "xsd:integer" },
+        "course_id": { "@id": "ps:courseId", "@type": "xsd:integer" },
+        "section_number": { "@id": "ps:sectionNumber", "@type": "xsd:integer" },
+        "expression": { "@id": "ps:expression", "@type": "xsd:string" },
+        "external_expression": { "@id": "ps:externalExpression", "@type": "xsd:string" },
+        "gradebooktype": { "@id": "ps:gradebookType", "@type": "xsd:string" },
+        "school_id": { "@id": "ps:schoolId", "@type": "xsd:integer" },
+        "staff_id": { "@id": "ps:staffId", "@type": "xsd:integer" },
+        "term_id": { "@id": "ps:termId", "@type": "xsd:integer" }
+      }
+    },
+
+    "Term": {
+      "@id": "ps:Term",
+      "@context": {
+        "id": { "@id": "ps:dcid", "@type": "xsd:integer" },
+        "title": { "@id": "schema:name", "@type": "xsd:string" },
+        "startDate": { "@id": "schema:startDate", "@type": "xsd:date" },
+        "endDate": { "@id": "schema:endDate", "@type": "xsd:date" },
+        "parentTermId": { "@id": "ps:parentTermId", "@type": "xsd:integer" },
+        "schoolNumber": { "@id": "ps:schoolNumber", "@type": "xsd:integer" },
+        "abbrev": { "@id": "schema:alternateName", "@type": "xsd:string" }
+      }
+    },
+
+    "Demographics": {
+      "@id": "ps:Demographics",
+      "@context": {
+        "birth_date": { "@id": "schema:birthDate", "@type": "xsd:date" },
+        "district_entry_date": { "@id": "ps:districtEntryDate", "@type": "xsd:date" },
+        "gender": { "@id": "schema:gender", "@type": "xsd:string" },
+        "projected_graduation_year": { "@id": "ps:projectedGraduationYear", "@type": "xsd:integer" }
+      }
+    },
+
+    "Address": {
+      "@id": "schema:PostalAddress",
+      "@context": {
+        "city": { "@id": "schema:addressLocality", "@type": "xsd:string" },
+        "postal_code": { "@id": "schema:postalCode", "@type": "xsd:string" },
+        "state_province": { "@id": "schema:addressRegion", "@type": "xsd:string" },
+        "street": { "@id": "schema:streetAddress", "@type": "xsd:string" }
+      }
+    },
+
+    "Name": {
+      "@id": "schema:Person",
+      "@context": {
+        "first_name": { "@id": "schema:givenName", "@type": "xsd:string" },
+        "middle_name": { "@id": "schema:additionalName", "@type": "xsd:string" },
+        "last_name": { "@id": "schema:familyName", "@type": "xsd:string" }
+      }
+    },
+
+    "Assignment": {
+      "@id": "schema:Quiz",
+      "@context": {
+        "id": { "@id": "ps:assignmentId", "@type": "xsd:integer" },
+        "name": { "@id": "schema:name", "@type": "xsd:string" },
+        "abbreviation": { "@id": "schema:alternateName", "@type": "xsd:string" },
+        "categoryId": { "@id": "ps:assignmentCategoryId", "@type": "xsd:integer" },
+        "sectionid": { "@id": "ps:sectionId", "@type": "xsd:integer" },
+        "description": { "@id": "schema:description", "@type": "xsd:string" },
+        "dueDate": { "@id": "schema:expires", "@type": "xsd:dateTime" },
+        "weight": { "@id": "ps:gradeWeight", "@type": "xsd:decimal" },
+        "includeinfinalgrades": { "@id": "ps:includeInFinalGrades", "@type": "xsd:boolean" },
+        "publishscores": { "@id": "ps:publishScores", "@type": "xsd:boolean" }
+      }
+    },
+
+    "FinalGrade": {
+      "@id": "ps:FinalGrade",
+      "@context": {
+        "id": { "@id": "ps:finalGradeId", "@type": "xsd:integer" },
+        "grade": { "@id": "ps:letterGrade", "@type": "xsd:string" },
+        "percent": { "@id": "ps:percentageGrade", "@type": "xsd:decimal" },
+        "dateStored": { "@id": "schema:dateCreated", "@type": "xsd:dateTime" },
+        "commentValue": { "@id": "schema:comment", "@type": "xsd:string" },
+        "reportingTermId": { "@id": "ps:reportingTermId", "@type": "xsd:integer" },
+        "sectionid": { "@id": "ps:sectionId", "@type": "xsd:integer" }
+      }
+    },
+
+    "AttendanceRecord": {
+      "@id": "ps:AttendanceRecord",
+      "@context": {
+        "id": { "@id": "ps:attendanceRecordId", "@type": "xsd:integer" },
+        "attCodeid": { "@id": "ps:attendanceCodeId", "@type": "xsd:integer" },
+        "attComment": { "@id": "schema:comment", "@type": "xsd:string" },
+        "attDate": { "@id": "schema:startDate", "@type": "xsd:date" },
+        "schoolid": { "@id": "ps:schoolId", "@type": "xsd:integer" },
+        "periodid": { "@id": "ps:periodId", "@type": "xsd:integer" },
+        "studentid": { "@id": "ps:studentId", "@type": "xsd:integer" },
+        "totalMinutes": { "@id": "ps:totalMinutes", "@type": "xsd:integer" }
+      }
+    },
+
+    "Token": {
+      "@id": "ps:OAuthToken",
+      "@context": {
+        "access_token": { "@id": "ps:accessToken", "@type": "xsd:string" },
+        "token_type": { "@id": "ps:tokenType", "@type": "xsd:string" },
+        "expires_in": { "@id": "ps:expiresIn", "@type": "xsd:string" }
+      }
+    },
+
+    "Metadata": {
+      "@id": "ps:SystemMetadata",
+      "@context": {
+        "powerschool_version": { "@id": "schema:softwareVersion", "@type": "xsd:string" },
+        "state": { "@id": "schema:addressRegion", "@type": "xsd:string" },
+        "student_max_page_size": { "@id": "ps:studentMaxPageSize", "@type": "xsd:integer" },
+        "school_max_page_size": { "@id": "ps:schoolMaxPageSize", "@type": "xsd:integer" }
+      }
+    }
+  }
+}

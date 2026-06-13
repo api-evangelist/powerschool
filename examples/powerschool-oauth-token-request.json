@@ -1,0 +1,15 @@
+{
+  "_description": "OAuth 2.0 client credentials token request for PowerSchool API. POST to /oauth/access_token/ with Basic auth header containing Base64(client_id:client_secret) and this form body.",
+  "_endpoint": "POST /oauth/access_token/",
+  "_headers": {
+    "Authorization": "Basic {base64(client_id:client_secret)}",
+    "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+    "Accept": "application/json"
+  },
+  "_body": "grant_type=client_credentials",
+  "_example_response": {
+    "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "token_type": "Bearer",
+    "expires_in": "3600"
+  }
+}
