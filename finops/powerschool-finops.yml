@@ -1,0 +1,85 @@
+name: PowerSchool FinOps
+description: >-
+  PowerSchool is sold under enterprise district licensing with annual contracts
+  priced by student enrollment and selected modules. There are no public
+  consumption-based API pricing tiers. Cost visibility is managed through
+  district procurement and budget allocation rather than metered API usage.
+  FinOps practices for PowerSchool focus on license utilization, module
+  rationalization, and integration cost optimization.
+specificationVersion: "1.0"
+framework: FinOps Foundation FOCUS v1.0
+currency: USD
+costAllocation:
+  model: fixed-annual-license
+  billingGranularity: annual
+  costDrivers:
+    - name: Student Enrollment Count
+      description: >-
+        Primary cost driver; pricing scales with the number of students
+        managed in the SIS. Larger enrollment = higher annual license fee.
+      unit: per-student
+      visibility: low
+      notes: Exact per-student rates require custom quote from PowerSchool sales.
+    - name: Module Add-Ons
+      description: >-
+        Optional modules (eCollect Forms, Enrollment Express, Schoology
+        Learning, Unified Insights, Naviance) each carry additional licensing
+        fees layered on top of the base SIS license.
+      unit: per-module
+      visibility: low
+    - name: Integration Partnerships
+      description: >-
+        Custom API partnerships with third-party vendors may carry
+        integration or connector fees negotiated at the district level.
+      unit: per-integration
+      visibility: low
+    - name: Support Tier
+      description: >-
+        Higher-tier support (dedicated account management, SLA guarantees)
+        increases total contract value.
+      unit: per-tier
+      visibility: medium
+optimization:
+  recommendations:
+    - name: Module Rationalization
+      description: >-
+        Audit which add-on modules are actively used versus licensed.
+        Unused modules should be decommissioned at renewal to reduce costs.
+      effort: low
+      impact: medium
+    - name: Integration Consolidation
+      description: >-
+        Review active API integrations and retire duplicative connectors
+        to reduce plugin sprawl and potential support overhead.
+      effort: medium
+      impact: medium
+    - name: Enrollment-Based Renewal Review
+      description: >-
+        Validate student enrollment counts before renewal negotiations.
+        Declining enrollment may support a lower pricing tier.
+      effort: low
+      impact: high
+    - name: Multi-Year Contract Negotiation
+      description: >-
+        PowerSchool typically offers discounts for multi-year agreements.
+        Evaluate total cost of ownership over 3-5 year horizon.
+      effort: medium
+      impact: high
+    - name: Competitive Benchmarking
+      description: >-
+        Benchmark PowerSchool SIS pricing against competing K-12 SIS
+        platforms (Infinite Campus, Skyward, Tyler Munis SIS) at renewal.
+      effort: medium
+      impact: high
+reporting:
+  budgetOwner: District Technology Director / CFO
+  renewalCycle: annual
+  procurementProcess: RFP / Direct Contract Renewal
+  costCenterAlignment: Technology / Student Services
+  notes: >-
+    PowerSchool costs are typically budgeted under district technology
+    operating funds. API access does not carry separate metered charges;
+    all API usage is bundled within the SIS license.
+contact:
+  - FN: PowerSchool Sales
+    url: https://www.powerschool.com/contact/

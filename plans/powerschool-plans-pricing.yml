@@ -1,0 +1,74 @@
+name: PowerSchool Plans and Pricing
+description: >-
+  PowerSchool offers enterprise-grade K-12 SIS licensing priced per district
+  and scaled by student enrollment. Pricing is custom-quoted and not publicly
+  listed; districts contact PowerSchool sales for proposals. API access is
+  bundled with the SIS license and enabled through the Plugin Management
+  Dashboard by district administrators. There are no separate public developer
+  tiers or self-service API subscription plans.
+specificationVersion: "0.1"
+plans:
+  - name: District License (Small)
+    description: >-
+      For smaller districts, typically starting around $2,500 per year.
+      Includes SIS access, cloud hosting, and API access provisioned via
+      Plugin Management Dashboard.
+    type: enterprise
+    pricingModel: custom
+    currency: USD
+    billingPeriod: annual
+    features:
+      - Student Information System access
+      - PowerTeacher Pro Gradebook
+      - REST API access via OAuth 2.0
+      - Plugin Management Dashboard
+      - Mobile apps (iOS and Android)
+      - Standard support
+    limitations:
+      - Pricing varies by enrollment size
+      - API credentials provisioned per plugin/integration
+      - Requires district administrator approval for API access
+    additionalCosts:
+      - name: Additional modules
+        description: eCollect Forms, Enrollment Express, Unified Insights, Schoology Learning add-ons priced separately
+  - name: District License (Mid-Size)
+    description: >-
+      For mid-size districts; pricing scales with student enrollment and
+      selected modules. Includes all standard SIS capabilities plus optional
+      advanced analytics.
+    type: enterprise
+    pricingModel: custom
+    currency: USD
+    billingPeriod: annual
+    features:
+      - All Small District features
+      - Advanced analytics and reporting
+      - State compliance reporting automation
+      - 75+ certified third-party integrations
+      - Single sign-on (SSO)
+      - Priority support
+    limitations:
+      - Custom quote required
+      - API access controlled by district plugin policies
+  - name: District License (Large / State)
+    description: >-
+      For large districts and state-level implementations. Includes full
+      platform access, custom API partnerships, and dedicated support.
+    type: enterprise
+    pricingModel: custom
+    currency: USD
+    billingPeriod: annual
+    features:
+      - All Mid-Size features
+      - Custom API partnerships
+      - Ed-Fi Alliance and 1EdTech certified integrations
+      - Dedicated account management
+      - SLA-backed uptime guarantees
+      - Multi-district / state rollup reporting
+    limitations:
+      - Negotiated contract terms
+      - Multi-year agreements typical
+url: https://www.powerschool.com/contact/
+contact:
+  - FN: PowerSchool Sales
+    url: https://www.powerschool.com/contact/

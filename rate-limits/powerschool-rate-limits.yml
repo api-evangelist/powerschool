@@ -1,0 +1,70 @@
+name: PowerSchool API Rate Limits
+description: >-
+  PowerSchool's REST API enforces rate limiting to protect system performance
+  across the multi-tenant SIS platform. Rate limit thresholds are not publicly
+  documented and may vary by district deployment, server capacity, and
+  integration plugin configuration. When rate limits are exceeded the API
+  returns an HTTP 429 Too Many Requests response. Pagination is supported
+  on collection endpoints via pagesize and page query parameters, and
+  large result sets should be requested incrementally rather than in bulk.
+  The Schoology Learning API (part of the PowerSchool product family) uses
+  a credit-based throttle that refills every 5 seconds.
+specificationVersion: "0.1"
+rateLimits:
+  - name: REST API General Rate Limit
+    description: >-
+      General rate limit applied to PowerSchool SIS REST API calls per
+      integration plugin / access token. Specific thresholds are not
+      publicly disclosed and are enforced server-side per district
+      deployment.
+    scope: per-token
+    enforcedBy: server
+    errorResponse:
+      httpStatusCode: 429
+      message: Rate Limit Exceeded. Please wait before making further requests.
+      headers:
+        - name: Retry-After
+          description: Seconds to wait before retrying
+    recommendations:
+      - Implement exponential backoff on 429 responses
+      - Use pagination (pagesize, page) to limit response size
+      - Prefer incremental/delta queries over full-table exports
+      - Cache retrieved data locally to reduce repeat API calls
+      - Schedule bulk data pulls during off-peak hours
+  - name: Schoology Learning API Credit-Based Throttle
+    description: >-
+      The Schoology Learning API (part of the PowerSchool ecosystem) uses
+      a request credit system. Each user/application is granted a set of
+      credits that refill every 5 seconds.
+    scope: per-application
+    window: 5 seconds
+    creditRefillPeriod: 5 seconds
+    creditCosts:
+      - method: GET
+        credits: 1
+      - method: OPTIONS
+        credits: 1
+      - method: POST
+        credits: 3
+      - method: PUT
+        credits: 3
+      - method: DELETE
+        credits: 3
+    errorResponse:
+      httpStatusCode: 429
+      headers:
+        - name: Retry-After
+          description: Suggested wait time in seconds before retrying
+pagination:
+  type: page-based
+  parameters:
+    - name: pagesize
+      description: Number of records per page
+      location: query
+    - name: page
+      description: Page number (zero-indexed)
+      location: query
+  notes: >-
+    Pagination is automatically handled by official client libraries.
+    Manual pagination is supported for custom integrations.
+url: https://support.powerschool.com/developer/
