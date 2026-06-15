@@ -1,0 +1,1039 @@
+"""
+PowerSchool SIS GraphQL Schema
+Conceptual schema derived from the PowerSchool REST API.
+Covers students, enrollments, courses, grades, attendance, assignments,
+teachers, sections, parents, and district reporting for SIS integration.
+"""
+
+# ─── Scalars ────────────────────────────────────────────────────────────────
+
+scalar Date
+scalar DateTime
+scalar JSON
+
+# ─── Enums ──────────────────────────────────────────────────────────────────
+
+enum Gender {
+  MALE
+  FEMALE
+  NON_BINARY
+  UNSPECIFIED
+}
+
+enum GradeLevel {
+  PK
+  KG
+  GRADE_1
+  GRADE_2
+  GRADE_3
+  GRADE_4
+  GRADE_5
+  GRADE_6
+  GRADE_7
+  GRADE_8
+  GRADE_9
+  GRADE_10
+  GRADE_11
+  GRADE_12
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  INACTIVE
+  TRANSFERRED
+  GRADUATED
+  WITHDRAWN
+  PRE_ENROLLED
+}
+
+enum AttendanceCode {
+  PRESENT
+  ABSENT
+  TARDY
+  EXCUSED_ABSENT
+  EXCUSED_TARDY
+  IN_SCHOOL_SUSPENSION
+  OUT_OF_SCHOOL_SUSPENSION
+  EARLY_DISMISSAL
+}
+
+enum TermType {
+  FULL_YEAR
+  SEMESTER
+  TRIMESTER
+  QUARTER
+  CUSTOM
+}
+
+enum AssignmentCategory {
+  HOMEWORK
+  CLASSWORK
+  QUIZ
+  TEST
+  PROJECT
+  LAB
+  PARTICIPATION
+  FINAL_EXAM
+  EXTRA_CREDIT
+  OTHER
+}
+
+enum CourseStatus {
+  ACTIVE
+  INACTIVE
+  ARCHIVED
+}
+
+enum StaffRole {
+  TEACHER
+  ADMINISTRATOR
+  COUNSELOR
+  SUPPORT_STAFF
+  SUBSTITUTE
+  AIDE
+}
+
+enum ReportFormat {
+  PDF
+  CSV
+  XLSX
+  JSON
+  XML
+}
+
+enum ContactType {
+  PARENT
+  GUARDIAN
+  EMERGENCY
+  OTHER
+}
+
+enum RelationshipType {
+  MOTHER
+  FATHER
+  GUARDIAN
+  GRANDPARENT
+  SIBLING
+  OTHER
+}
+
+enum SortOrder {
+  ASC
+  DESC
+}
+
+# ─── Core Domain Types ───────────────────────────────────────────────────────
+
+"""
+Top-level district that owns all schools, staff, and data.
+"""
+type District {
+  id: ID!
+  name: String!
+  state: String
+  ncesId: String
+  address: Address
+  phone: String
+  website: String
+  superIntendentName: String
+  studentCount: Int
+  schoolCount: Int
+  schools(filter: SchoolFilter, page: PaginationInput): SchoolConnection!
+  terms(schoolYear: Int): [SchoolYear!]!
+  staff(filter: StaffFilter, page: PaginationInput): StaffConnection!
+  reportingPeriods: [ReportingPeriod!]!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""
+A school within a district.
+"""
+type School {
+  id: ID!
+  districtId: ID!
+  district: District!
+  name: String!
+  abbreviation: String
+  schoolNumber: Int
+  address: Address
+  phone: String
+  principalName: String
+  lowGrade: GradeLevel
+  highGrade: GradeLevel
+  schoolType: String
+  ncesId: String
+  isActive: Boolean!
+  students(filter: StudentFilter, page: PaginationInput): StudentConnection!
+  sections(filter: SectionFilter, page: PaginationInput): SectionConnection!
+  staff(filter: StaffFilter, page: PaginationInput): StaffConnection!
+  courses(filter: CourseFilter, page: PaginationInput): CourseConnection!
+  terms: [Term!]!
+  currentEnrollmentCount: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""
+A student enrolled in the SIS.
+"""
+type Student {
+  id: ID!
+  localId: String
+  stateId: String
+  firstName: String!
+  middleName: String
+  lastName: String!
+  preferredName: String
+  dateOfBirth: Date
+  gender: Gender
+  ethnicity: String
+  race: [String!]
+  gradeLevel: GradeLevel
+  photo: String
+  primaryLanguage: String
+  englishLearner: Boolean
+  specialEducation: Boolean
+  section504: Boolean
+  freeReducedLunch: Boolean
+  address: Address
+  homePhone: String
+  email: String
+  enrollments(filter: EnrollmentFilter): [Enrollment!]!
+  currentEnrollment: Enrollment
+  contacts: [Contact!]!
+  grades(filter: GradeFilter, page: PaginationInput): GradeConnection!
+  attendanceRecords(filter: AttendanceFilter, page: PaginationInput): AttendanceConnection!
+  assignments(filter: AssignmentFilter, page: PaginationInput): AssignmentConnection!
+  sections(termId: ID): [Section!]!
+  gpa: GpaRecord
+  transcripts: [Transcript!]!
+  disciplineRecords(page: PaginationInput): DisciplineConnection!
+  testScores(page: PaginationInput): TestScoreConnection!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""
+A staff member (teacher, admin, counselor, etc.).
+"""
+type Staff {
+  id: ID!
+  localId: String
+  stateId: String
+  firstName: String!
+  middleName: String
+  lastName: String!
+  email: String
+  phone: String
+  role: StaffRole!
+  schoolId: ID
+  school: School
+  districtId: ID!
+  district: District!
+  certifications: [String!]
+  hireDate: Date
+  isActive: Boolean!
+  sections(filter: SectionFilter, page: PaginationInput): SectionConnection!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""
+A parent or guardian associated with one or more students.
+"""
+type Contact {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  relationshipType: RelationshipType
+  contactType: ContactType
+  email: String
+  homePhone: String
+  workPhone: String
+  cellPhone: String
+  address: Address
+  isPrimary: Boolean!
+  hasPortalAccess: Boolean!
+  students: [Student!]!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""
+An academic course offered by a school.
+"""
+type Course {
+  id: ID!
+  courseNumber: String!
+  name: String!
+  description: String
+  creditHours: Float
+  gradeLevel: GradeLevel
+  department: String
+  schoolId: ID!
+  school: School!
+  status: CourseStatus!
+  stateCourseCode: String
+  sections(filter: SectionFilter, page: PaginationInput): SectionConnection!
+  prerequisites: [Course!]!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""
+A section (class) of a course taught by a teacher in a term.
+"""
+type Section {
+  id: ID!
+  sectionNumber: String!
+  courseId: ID!
+  course: Course!
+  teacherId: ID
+  teacher: Staff
+  termId: ID!
+  term: Term!
+  schoolId: ID!
+  school: School!
+  roomNumber: String
+  capacity: Int
+  enrolledCount: Int
+  meetingTimes: [MeetingTime!]!
+  students(filter: StudentFilter, page: PaginationInput): StudentConnection!
+  grades(filter: GradeFilter, page: PaginationInput): GradeConnection!
+  assignments(filter: AssignmentFilter, page: PaginationInput): AssignmentConnection!
+  attendanceSummary: AttendanceSummary
+  gradingScale: GradingScale
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""
+Student enrollment in a school for a school year.
+"""
+type Enrollment {
+  id: ID!
+  studentId: ID!
+  student: Student!
+  schoolId: ID!
+  school: School!
+  schoolYearId: ID!
+  schoolYear: SchoolYear!
+  gradeLevel: GradeLevel!
+  status: EnrollmentStatus!
+  entryDate: Date!
+  exitDate: Date
+  entryCode: String
+  exitCode: String
+  exitReason: String
+  transferFromSchool: String
+  transferToSchool: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""
+An academic term (semester, quarter, etc.) within a school year.
+"""
+type Term {
+  id: ID!
+  name: String!
+  abbreviation: String
+  termType: TermType!
+  schoolYearId: ID!
+  schoolYear: SchoolYear!
+  schoolId: ID!
+  school: School!
+  startDate: Date!
+  endDate: Date!
+  isActive: Boolean!
+  sections(filter: SectionFilter): [Section!]!
+  reportingPeriods: [ReportingPeriod!]!
+}
+
+"""
+A school year definition at the district level.
+"""
+type SchoolYear {
+  id: ID!
+  districtId: ID!
+  district: District!
+  name: String!
+  startDate: Date!
+  endDate: Date!
+  isCurrent: Boolean!
+  terms: [Term!]!
+  enrollments(filter: EnrollmentFilter, page: PaginationInput): EnrollmentConnection!
+}
+
+"""
+A grade record for a student in a section.
+"""
+type Grade {
+  id: ID!
+  studentId: ID!
+  student: Student!
+  sectionId: ID!
+  section: Section!
+  termId: ID!
+  term: Term!
+  reportingPeriodId: ID
+  reportingPeriod: ReportingPeriod
+  letterGrade: String
+  percentGrade: Float
+  gpaPoints: Float
+  creditEarned: Float
+  creditAttempted: Float
+  isIncomplete: Boolean
+  isFinal: Boolean
+  comment: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""
+An attendance record for a student on a specific day or period.
+"""
+type AttendanceRecord {
+  id: ID!
+  studentId: ID!
+  student: Student!
+  schoolId: ID!
+  school: School!
+  sectionId: ID
+  section: Section
+  date: Date!
+  attendanceCode: AttendanceCode!
+  periodName: String
+  comment: String
+  enteredBy: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""
+An assignment defined within a section.
+"""
+type Assignment {
+  id: ID!
+  name: String!
+  description: String
+  sectionId: ID!
+  section: Section!
+  category: AssignmentCategory!
+  dueDate: Date
+  assignedDate: Date
+  totalPoints: Float!
+  weight: Float
+  isExtraCredit: Boolean
+  isPublished: Boolean
+  submissions: [AssignmentSubmission!]!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""
+A student's submission and score for a single assignment.
+"""
+type AssignmentSubmission {
+  id: ID!
+  assignmentId: ID!
+  assignment: Assignment!
+  studentId: ID!
+  student: Student!
+  score: Float
+  letterGrade: String
+  percentGrade: Float
+  isExempt: Boolean
+  isMissing: Boolean
+  isLate: Boolean
+  comment: String
+  submittedAt: DateTime
+  gradedAt: DateTime
+  gradedBy: Staff
+}
+
+"""
+A grading scale used to map numeric scores to letter grades.
+"""
+type GradingScale {
+  id: ID!
+  name: String!
+  schoolId: ID!
+  school: School!
+  isDefault: Boolean!
+  entries: [GradingScaleEntry!]!
+}
+
+"""
+A single entry (cutoff) within a grading scale.
+"""
+type GradingScaleEntry {
+  id: ID!
+  gradingScaleId: ID!
+  letterGrade: String!
+  minimumPercent: Float!
+  maximumPercent: Float!
+  gpaPoints: Float
+  description: String
+}
+
+"""
+A reporting period (e.g., Q1, S1) within a term.
+"""
+type ReportingPeriod {
+  id: ID!
+  name: String!
+  abbreviation: String
+  termId: ID!
+  term: Term!
+  startDate: Date!
+  endDate: Date!
+  isActive: Boolean!
+  grades(filter: GradeFilter, page: PaginationInput): GradeConnection!
+}
+
+"""
+A meeting time slot for a section (day, period, room).
+"""
+type MeetingTime {
+  id: ID!
+  sectionId: ID!
+  dayOfWeek: String
+  periodName: String
+  startTime: String
+  endTime: String
+  roomNumber: String
+}
+
+"""
+A postal address used by multiple entity types.
+"""
+type Address {
+  street1: String
+  street2: String
+  city: String
+  state: String
+  zip: String
+  country: String
+}
+
+"""
+Aggregated attendance summary for a section or student.
+"""
+type AttendanceSummary {
+  totalDays: Int!
+  presentDays: Int!
+  absentDays: Int!
+  tardyDays: Int!
+  excusedAbsentDays: Int!
+  excusedTardyDays: Int!
+  attendanceRate: Float!
+}
+
+"""
+A student's GPA record across terms.
+"""
+type GpaRecord {
+  studentId: ID!
+  cumulativeGpa: Float
+  termGpa: Float
+  weightedGpa: Float
+  totalCreditsEarned: Float
+  totalCreditsAttempted: Float
+  classRank: Int
+  classSize: Int
+}
+
+"""
+A student's transcript including all final grades.
+"""
+type Transcript {
+  id: ID!
+  studentId: ID!
+  student: Student!
+  schoolYearId: ID!
+  schoolYear: SchoolYear!
+  grades: [Grade!]!
+  gpa: Float
+  creditsEarned: Float
+  generatedAt: DateTime
+}
+
+"""
+A discipline incident record for a student.
+"""
+type DisciplineRecord {
+  id: ID!
+  studentId: ID!
+  student: Student!
+  schoolId: ID!
+  school: School!
+  incidentDate: Date!
+  incidentType: String!
+  description: String
+  action: String
+  duration: Float
+  enteredBy: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""
+A standardized test score record for a student.
+"""
+type TestScore {
+  id: ID!
+  studentId: ID!
+  student: Student!
+  testName: String!
+  testDate: Date
+  subjectArea: String
+  score: Float
+  scaledScore: Float
+  percentile: Float
+  proficiencyLevel: String
+  adminYear: Int
+  createdAt: DateTime
+}
+
+"""
+A district-level report definition.
+"""
+type Report {
+  id: ID!
+  name: String!
+  description: String
+  districtId: ID!
+  district: District!
+  category: String
+  format: ReportFormat
+  parameters: JSON
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""
+A generated report run instance with output data or download URL.
+"""
+type ReportRun {
+  id: ID!
+  reportId: ID!
+  report: Report!
+  requestedBy: String
+  status: String!
+  startedAt: DateTime
+  completedAt: DateTime
+  downloadUrl: String
+  errorMessage: String
+}
+
+"""
+An API plugin registration used to provision OAuth credentials.
+"""
+type Plugin {
+  id: ID!
+  name: String!
+  description: String
+  districtId: ID!
+  version: String
+  isActive: Boolean!
+  clientId: String!
+  scopes: [String!]!
+  webhookUrl: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""
+An OAuth access token issued for API authentication.
+"""
+type AccessToken {
+  tokenType: String!
+  expiresIn: Int!
+  accessToken: String!
+  scope: String
+}
+
+# ─── Connection & Pagination Types ──────────────────────────────────────────
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+  totalCount: Int!
+  pageSize: Int!
+  currentPage: Int!
+}
+
+type StudentConnection {
+  nodes: [Student!]!
+  pageInfo: PageInfo!
+}
+
+type StaffConnection {
+  nodes: [Staff!]!
+  pageInfo: PageInfo!
+}
+
+type SchoolConnection {
+  nodes: [School!]!
+  pageInfo: PageInfo!
+}
+
+type SectionConnection {
+  nodes: [Section!]!
+  pageInfo: PageInfo!
+}
+
+type CourseConnection {
+  nodes: [Course!]!
+  pageInfo: PageInfo!
+}
+
+type GradeConnection {
+  nodes: [Grade!]!
+  pageInfo: PageInfo!
+}
+
+type AttendanceConnection {
+  nodes: [AttendanceRecord!]!
+  pageInfo: PageInfo!
+}
+
+type AssignmentConnection {
+  nodes: [Assignment!]!
+  pageInfo: PageInfo!
+}
+
+type EnrollmentConnection {
+  nodes: [Enrollment!]!
+  pageInfo: PageInfo!
+}
+
+type DisciplineConnection {
+  nodes: [DisciplineRecord!]!
+  pageInfo: PageInfo!
+}
+
+type TestScoreConnection {
+  nodes: [TestScore!]!
+  pageInfo: PageInfo!
+}
+
+# ─── Input Types ─────────────────────────────────────────────────────────────
+
+input PaginationInput {
+  page: Int
+  pageSize: Int
+  sortBy: String
+  sortOrder: SortOrder
+}
+
+input StudentFilter {
+  gradeLevel: GradeLevel
+  schoolId: ID
+  isActive: Boolean
+  englishLearner: Boolean
+  specialEducation: Boolean
+  searchQuery: String
+}
+
+input StaffFilter {
+  role: StaffRole
+  schoolId: ID
+  isActive: Boolean
+  searchQuery: String
+}
+
+input SchoolFilter {
+  districtId: ID
+  isActive: Boolean
+  searchQuery: String
+}
+
+input SectionFilter {
+  termId: ID
+  courseId: ID
+  teacherId: ID
+  schoolId: ID
+}
+
+input CourseFilter {
+  schoolId: ID
+  status: CourseStatus
+  department: String
+  gradeLevel: GradeLevel
+}
+
+input EnrollmentFilter {
+  schoolYearId: ID
+  schoolId: ID
+  status: EnrollmentStatus
+  gradeLevel: GradeLevel
+}
+
+input GradeFilter {
+  termId: ID
+  reportingPeriodId: ID
+  isFinal: Boolean
+}
+
+input AttendanceFilter {
+  startDate: Date
+  endDate: Date
+  attendanceCode: AttendanceCode
+  schoolId: ID
+}
+
+input AssignmentFilter {
+  category: AssignmentCategory
+  dueDateStart: Date
+  dueDateEnd: Date
+  isPublished: Boolean
+}
+
+input CreateStudentInput {
+  firstName: String!
+  lastName: String!
+  middleName: String
+  dateOfBirth: Date
+  gender: Gender
+  gradeLevel: GradeLevel!
+  schoolId: ID!
+  address: AddressInput
+  email: String
+  homePhone: String
+}
+
+input UpdateStudentInput {
+  firstName: String
+  lastName: String
+  middleName: String
+  preferredName: String
+  dateOfBirth: Date
+  gender: Gender
+  gradeLevel: GradeLevel
+  address: AddressInput
+  email: String
+  homePhone: String
+  englishLearner: Boolean
+  specialEducation: Boolean
+  section504: Boolean
+  freeReducedLunch: Boolean
+}
+
+input CreateEnrollmentInput {
+  studentId: ID!
+  schoolId: ID!
+  schoolYearId: ID!
+  gradeLevel: GradeLevel!
+  entryDate: Date!
+  entryCode: String
+}
+
+input UpdateEnrollmentInput {
+  status: EnrollmentStatus
+  exitDate: Date
+  exitCode: String
+  exitReason: String
+  transferToSchool: String
+}
+
+input CreateSectionInput {
+  courseId: ID!
+  teacherId: ID
+  termId: ID!
+  schoolId: ID!
+  sectionNumber: String!
+  roomNumber: String
+  capacity: Int
+}
+
+input CreateAssignmentInput {
+  name: String!
+  description: String
+  sectionId: ID!
+  category: AssignmentCategory!
+  dueDate: Date
+  assignedDate: Date
+  totalPoints: Float!
+  weight: Float
+  isExtraCredit: Boolean
+}
+
+input ScoreAssignmentInput {
+  assignmentId: ID!
+  studentId: ID!
+  score: Float
+  isExempt: Boolean
+  isMissing: Boolean
+  isLate: Boolean
+  comment: String
+}
+
+input RecordAttendanceInput {
+  studentId: ID!
+  schoolId: ID!
+  sectionId: ID
+  date: Date!
+  attendanceCode: AttendanceCode!
+  periodName: String
+  comment: String
+}
+
+input AddressInput {
+  street1: String
+  street2: String
+  city: String
+  state: String
+  zip: String
+  country: String
+}
+
+input CreateContactInput {
+  firstName: String!
+  lastName: String!
+  relationshipType: RelationshipType
+  contactType: ContactType
+  email: String
+  homePhone: String
+  workPhone: String
+  cellPhone: String
+  address: AddressInput
+  isPrimary: Boolean
+  studentIds: [ID!]!
+}
+
+# ─── Root Types ──────────────────────────────────────────────────────────────
+
+type Query {
+  # District
+  district(id: ID!): District
+  districts(filter: SchoolFilter, page: PaginationInput): [District!]!
+
+  # Schools
+  school(id: ID!): School
+  schools(districtId: ID!, filter: SchoolFilter, page: PaginationInput): SchoolConnection!
+
+  # Students
+  student(id: ID!): Student
+  students(schoolId: ID!, filter: StudentFilter, page: PaginationInput): StudentConnection!
+
+  # Staff
+  staffMember(id: ID!): Staff
+  staff(schoolId: ID!, filter: StaffFilter, page: PaginationInput): StaffConnection!
+
+  # Contacts
+  contact(id: ID!): Contact
+  contactsByStudent(studentId: ID!): [Contact!]!
+
+  # Courses
+  course(id: ID!): Course
+  courses(schoolId: ID!, filter: CourseFilter, page: PaginationInput): CourseConnection!
+
+  # Sections
+  section(id: ID!): Section
+  sections(schoolId: ID!, filter: SectionFilter, page: PaginationInput): SectionConnection!
+
+  # Enrollments
+  enrollment(id: ID!): Enrollment
+  enrollments(filter: EnrollmentFilter!, page: PaginationInput): EnrollmentConnection!
+
+  # Terms & School Years
+  term(id: ID!): Term
+  terms(schoolId: ID!): [Term!]!
+  schoolYear(id: ID!): SchoolYear
+  schoolYears(districtId: ID!): [SchoolYear!]!
+
+  # Grades
+  grade(id: ID!): Grade
+  gradesByStudent(studentId: ID!, filter: GradeFilter, page: PaginationInput): GradeConnection!
+  gradesBySection(sectionId: ID!, filter: GradeFilter, page: PaginationInput): GradeConnection!
+
+  # Attendance
+  attendanceRecord(id: ID!): AttendanceRecord
+  attendanceByStudent(studentId: ID!, filter: AttendanceFilter, page: PaginationInput): AttendanceConnection!
+  attendanceBySection(sectionId: ID!, filter: AttendanceFilter, page: PaginationInput): AttendanceConnection!
+  attendanceSummaryForStudent(studentId: ID!, schoolYearId: ID): AttendanceSummary!
+
+  # Assignments
+  assignment(id: ID!): Assignment
+  assignmentsBySection(sectionId: ID!, filter: AssignmentFilter, page: PaginationInput): AssignmentConnection!
+  submissionsByAssignment(assignmentId: ID!, page: PaginationInput): [AssignmentSubmission!]!
+  submissionsByStudent(studentId: ID!, sectionId: ID!): [AssignmentSubmission!]!
+
+  # GPA & Transcripts
+  gpaForStudent(studentId: ID!, schoolYearId: ID): GpaRecord
+  transcript(studentId: ID!, schoolYearId: ID!): Transcript
+
+  # Reporting Periods
+  reportingPeriod(id: ID!): ReportingPeriod
+  reportingPeriodsByTerm(termId: ID!): [ReportingPeriod!]!
+
+  # Grading Scales
+  gradingScale(id: ID!): GradingScale
+  gradingScalesBySchool(schoolId: ID!): [GradingScale!]!
+
+  # Discipline
+  disciplineByStudent(studentId: ID!, page: PaginationInput): DisciplineConnection!
+
+  # Test Scores
+  testScoresByStudent(studentId: ID!, page: PaginationInput): TestScoreConnection!
+
+  # Reports
+  report(id: ID!): Report
+  reports(districtId: ID!): [Report!]!
+  reportRun(id: ID!): ReportRun
+
+  # Plugins
+  plugin(id: ID!): Plugin
+  plugins(districtId: ID!): [Plugin!]!
+}
+
+type Mutation {
+  # Students
+  createStudent(input: CreateStudentInput!): Student!
+  updateStudent(id: ID!, input: UpdateStudentInput!): Student!
+  deleteStudent(id: ID!): Boolean!
+
+  # Enrollments
+  createEnrollment(input: CreateEnrollmentInput!): Enrollment!
+  updateEnrollment(id: ID!, input: UpdateEnrollmentInput!): Enrollment!
+
+  # Contacts
+  createContact(input: CreateContactInput!): Contact!
+  updateContact(id: ID!, input: CreateContactInput!): Contact!
+  deleteContact(id: ID!): Boolean!
+
+  # Sections
+  createSection(input: CreateSectionInput!): Section!
+  updateSection(id: ID!, input: CreateSectionInput!): Section!
+  deleteSection(id: ID!): Boolean!
+  enrollStudentInSection(studentId: ID!, sectionId: ID!): Section!
+  unenrollStudentFromSection(studentId: ID!, sectionId: ID!): Section!
+
+  # Assignments
+  createAssignment(input: CreateAssignmentInput!): Assignment!
+  updateAssignment(id: ID!, input: CreateAssignmentInput!): Assignment!
+  deleteAssignment(id: ID!): Boolean!
+  scoreAssignment(input: ScoreAssignmentInput!): AssignmentSubmission!
+
+  # Attendance
+  recordAttendance(input: RecordAttendanceInput!): AttendanceRecord!
+  updateAttendance(id: ID!, attendanceCode: AttendanceCode!, comment: String): AttendanceRecord!
+
+  # Reports
+  runReport(reportId: ID!, parameters: JSON): ReportRun!
+
+  # Auth
+  requestAccessToken(clientId: String!, clientSecret: String!): AccessToken!
+}
+
+type Subscription {
+  studentEnrolled(schoolId: ID!): Enrollment!
+  gradePosted(sectionId: ID!): Grade!
+  attendanceRecorded(schoolId: ID!, date: Date): AttendanceRecord!
+  assignmentScored(sectionId: ID!): AssignmentSubmission!
+}
