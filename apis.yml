@@ -81,7 +81,7 @@ common:
   url: finops/powerschool-finops.yml
 - type: Vocabulary
   url: vocabulary/powerschool-vocabulary.yml
-- type: JsonLd
+- type: JSONLD
   url: json-ld/powerschool-context.jsonld
 - type: JSONSchema
   url: json-schema/powerschool-student.json

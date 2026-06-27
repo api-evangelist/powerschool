@@ -2,10 +2,14 @@
   "repo": "powerschool",
   "feeds": [
     {
-      "source": "https://www.linkedin.com/company/powerschool-group-llc/",
-      "error": "HTTPError"
+      "source": "https://www.powerschool.com/blog/",
+      "feed_url": "",
+      "saved": 0,
+      "method": "agent-scrape",
+      "error": "JS-rendered listing; sitemap shows no 2026-06-20..27 posts"
     }
   ],
   "post_count": 0,
-  "fetched": "2026-06-14T20:42:17Z"
+  "fetched": "2026-06-27T13:03:12Z",
+  "agent_pulled": "2026-06-27"
 }
