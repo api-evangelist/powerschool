@@ -1,0 +1,21 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/powerschool-powerschool-sis-api-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: BearerAuth
+  type: http
+  scheme: bearer
+  description: Bearer token obtained from /oauth/access_token/ using client credentials. Tokens
+    expire and must be refreshed.
+  sources:
+  - openapi/powerschool-powerschool-sis-api-openapi.yml
+- name: BasicAuth
+  type: http
+  scheme: basic
+  description: Basic auth with Base64-encoded client_id:client_secret for the token endpoint
+    only.
+  sources:
+  - openapi/powerschool-powerschool-sis-api-openapi.yml
