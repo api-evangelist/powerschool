@@ -57,6 +57,8 @@ apis:
   - FN: PowerSchool Developer Support
     url: https://help.powerschool.com/
 common:
+- type: AgenticAccess
+  url: agentic-access/powerschool-agentic-access.yml
 - type: TrustCenter
   url: security/powerschool-trust-center.yml
 - type: DomainSecurity

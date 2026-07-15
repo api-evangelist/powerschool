@@ -1,0 +1,178 @@
+generated: '2026-07-15'
+method: generated
+source: openapi/powerschool-powerschool-sis-api-openapi.yml
+description: Recommended x-agentic-access execution contracts, classified heuristically from
+  the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
+  audience per deployment. See research/curity/agentic-governance/.
+summary:
+  operations: 15
+  by_action_class:
+    acting: 2
+    connected: 13
+  by_consequence:
+    write: 2
+    read: 13
+  human_in_the_loop_required: 0
+operations:
+- path: /oauth/access_token/
+  method: post
+  operationId: getAccessToken
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /ws/v1/metadata
+  method: get
+  operationId: getMetadata
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /ws/v1/district/school
+  method: get
+  operationId: getSchools
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /ws/v1/district/school/count
+  method: get
+  operationId: getSchoolsCount
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /ws/v1/district/student
+  method: get
+  operationId: getStudentsInDistrict
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /ws/v1/district/student/count
+  method: get
+  operationId: getStudentsInDistrictCount
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /ws/v1/district/student/{studentDcid}
+  method: get
+  operationId: getStudent
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /ws/v1/school/{schoolDcid}
+  method: get
+  operationId: getSchool
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /ws/v1/school/{schoolDcid}/course
+  method: get
+  operationId: getCoursesForSchool
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /ws/v1/school/{schoolDcid}/course/count
+  method: get
+  operationId: getCoursesCountForSchool
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /ws/v1/school/{schoolDcid}/section
+  method: get
+  operationId: getSectionsForSchool
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /ws/v1/school/{schoolDcid}/section/count
+  method: get
+  operationId: getSectionsCountForSchool
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /ws/schema/query/{queryName}
+  method: post
+  operationId: executePowerQuery
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /ws/schema/table/{tableName}
+  method: get
+  operationId: getSchemaTable
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /ws/schema/table/{tableName}/count
+  method: get
+  operationId: getSchemaTableCount
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
