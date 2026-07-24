@@ -1,0 +1,118 @@
+openapi: 3.0.3
+info:
+  title: PowerSchool SIS REST Authentication Metadata API
+  description: The PowerSchool SIS REST API provides programmatic access to student information system data including student demographics, enrollment records, grades, attendance, master scheduling, and district reporting. The API uses OAuth 2.0 client credentials for authentication and returns data in JSON format. Endpoints follow the /ws/v1/ path convention and support GET, POST, PUT, and DELETE HTTP methods for full CRUD operations on supported resources. Authentication tokens are obtained via /oauth/access_token/ using Basic auth with client credentials provisioned through the PowerSchool Plugin Management Dashboard.
+  version: 1.0.0
+  contact:
+    name: PowerSchool Developer Support
+    url: https://help.powerschool.com/
+  termsOfService: https://www.powerschool.com/legal/
+servers:
+- url: https://{district}.powerschool.com
+  description: District PowerSchool instance
+  variables:
+    district:
+      description: The subdomain of the school district's PowerSchool installation
+      default: demo
+security:
+- BearerAuth: []
+tags:
+- name: Metadata
+  description: System metadata and configuration
+paths:
+  /ws/v1/metadata:
+    get:
+      operationId: getMetadata
+      summary: Get system metadata
+      description: Returns system-level metadata including version information, page size limits, plugin ID, and server uptime details.
+      tags:
+      - Metadata
+      responses:
+        '200':
+          description: System metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Metadata'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      description: API error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error description
+        error:
+          type: string
+          description: Error code or type
+        status:
+          type: integer
+          description: HTTP status code
+    Metadata:
+      type: object
+      description: System-level metadata and configuration limits
+      properties:
+        course_max_page_size:
+          type: integer
+          description: Maximum page size for course queries
+        machine_uptime:
+          type: string
+          description: Server uptime duration
+        mobile_api_version:
+          type: string
+          description: Mobile API version string
+        plugin_id:
+          type: integer
+          description: Plugin identifier
+        powerschool_uptime:
+          type: string
+          description: PowerSchool application uptime
+        powerschool_version:
+          type: string
+          description: PowerSchool version string
+        powerteacher_version:
+          type: string
+          description: PowerTeacher version string
+        school_max_page_size:
+          type: integer
+          description: Maximum page size for school queries
+        schema_table_query_max_page_size:
+          type: integer
+          description: Maximum page size for schema table queries
+        section_max_page_size:
+          type: integer
+          description: Maximum page size for section queries
+        section_enrollment_max_page_size:
+          type: integer
+          description: Maximum page size for section enrollment queries
+        state_reporting_version:
+          type: string
+          description: State reporting module version
+        staff_max_page_size:
+          type: integer
+          description: Maximum page size for staff queries
+        state:
+          type: string
+          description: US state or province code for this installation
+        student_max_page_size:
+          type: integer
+          description: Maximum page size for student queries
+        term_max_page_size:
+          type: integer
+          description: Maximum page size for term queries
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained from /oauth/access_token/ using client credentials. Tokens expire and must be refreshed.
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: Basic auth with Base64-encoded client_id:client_secret for the token endpoint only.

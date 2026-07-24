@@ -1,0 +1,101 @@
+openapi: 3.0.3
+info:
+  title: PowerSchool SIS REST Authentication API
+  description: The PowerSchool SIS REST API provides programmatic access to student information system data including student demographics, enrollment records, grades, attendance, master scheduling, and district reporting. The API uses OAuth 2.0 client credentials for authentication and returns data in JSON format. Endpoints follow the /ws/v1/ path convention and support GET, POST, PUT, and DELETE HTTP methods for full CRUD operations on supported resources. Authentication tokens are obtained via /oauth/access_token/ using Basic auth with client credentials provisioned through the PowerSchool Plugin Management Dashboard.
+  version: 1.0.0
+  contact:
+    name: PowerSchool Developer Support
+    url: https://help.powerschool.com/
+  termsOfService: https://www.powerschool.com/legal/
+servers:
+- url: https://{district}.powerschool.com
+  description: District PowerSchool instance
+  variables:
+    district:
+      description: The subdomain of the school district's PowerSchool installation
+      default: demo
+security:
+- BearerAuth: []
+tags:
+- name: Authentication
+  description: OAuth 2.0 token operations
+paths:
+  /oauth/access_token/:
+    post:
+      operationId: getAccessToken
+      summary: Obtain OAuth 2.0 access token
+      description: Exchange client credentials for a Bearer access token using the OAuth 2.0 client credentials grant type. The client_id and client_secret are provisioned through the PowerSchool Plugin Management Dashboard. Credentials must be Base64-encoded in the Authorization header as Basic {base64(client_id:client_secret)}.
+      tags:
+      - Authentication
+      security:
+      - BasicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+              - grant_type
+              properties:
+                grant_type:
+                  type: string
+                  enum:
+                  - client_credentials
+                  description: Must be "client_credentials"
+      responses:
+        '200':
+          description: Access token issued successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '401':
+          description: Invalid client credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      description: API error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error description
+        error:
+          type: string
+          description: Error code or type
+        status:
+          type: integer
+          description: HTTP status code
+    Token:
+      type: object
+      description: OAuth 2.0 access token response
+      required:
+      - access_token
+      - token_type
+      - expires_in
+      properties:
+        access_token:
+          type: string
+          description: The Bearer access token value
+        token_type:
+          type: string
+          description: Token type, typically "Bearer"
+          example: Bearer
+        expires_in:
+          type: string
+          description: Token lifetime in seconds (returned as string)
+          example: '3600'
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained from /oauth/access_token/ using client credentials. Tokens expire and must be refreshed.
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: Basic auth with Base64-encoded client_id:client_secret for the token endpoint only.

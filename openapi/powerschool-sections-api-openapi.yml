@@ -1,0 +1,185 @@
+openapi: 3.0.3
+info:
+  title: PowerSchool SIS REST Authentication Sections API
+  description: The PowerSchool SIS REST API provides programmatic access to student information system data including student demographics, enrollment records, grades, attendance, master scheduling, and district reporting. The API uses OAuth 2.0 client credentials for authentication and returns data in JSON format. Endpoints follow the /ws/v1/ path convention and support GET, POST, PUT, and DELETE HTTP methods for full CRUD operations on supported resources. Authentication tokens are obtained via /oauth/access_token/ using Basic auth with client credentials provisioned through the PowerSchool Plugin Management Dashboard.
+  version: 1.0.0
+  contact:
+    name: PowerSchool Developer Support
+    url: https://help.powerschool.com/
+  termsOfService: https://www.powerschool.com/legal/
+servers:
+- url: https://{district}.powerschool.com
+  description: District PowerSchool instance
+  variables:
+    district:
+      description: The subdomain of the school district's PowerSchool installation
+      default: demo
+security:
+- BearerAuth: []
+tags:
+- name: Sections
+  description: Course sections and scheduling
+paths:
+  /ws/v1/school/{schoolDcid}/section:
+    get:
+      operationId: getSectionsForSchool
+      summary: List sections for a school
+      description: Returns all course sections at the given school for the current school year. The schoolDcid is the school's DCID, not its ID or school number.
+      tags:
+      - Sections
+      parameters:
+      - name: schoolDcid
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: The school's DCID (not school number or ID)
+      - $ref: '#/components/parameters/PageSize'
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/Query'
+      responses:
+        '200':
+          description: List of sections
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SectionsResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /ws/v1/school/{schoolDcid}/section/count:
+    get:
+      operationId: getSectionsCountForSchool
+      summary: Count sections for a school
+      description: Returns the count of sections for the given school.
+      tags:
+      - Sections
+      parameters:
+      - name: schoolDcid
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: The school's DCID
+      responses:
+        '200':
+          description: Count of sections
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceCount'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  parameters:
+    PageSize:
+      name: pagesize
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 1000
+        default: 100
+      description: Number of records to return per page.
+    Page:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      description: Page number for paginated results (1-indexed).
+    Query:
+      name: q
+      in: query
+      required: false
+      schema:
+        type: string
+      description: 'Filter expression using FIQL-like syntax. Example: id=ge=10000 to filter records with id >= 10000.'
+      example: id=ge=10000
+  schemas:
+    Section:
+      type: object
+      description: A course section (a specific offering of a course in a given period and room)
+      properties:
+        id:
+          type: integer
+          description: Section DCID
+        course_id:
+          type: integer
+          description: The DCID of the associated course
+        section_number:
+          type: integer
+          description: Section number
+        expression:
+          type: string
+          description: Period expression string (e.g., "1(A)")
+        external_expression:
+          type: string
+          description: External period expression for display
+        gradebooktype:
+          type: string
+          description: Gradebook type identifier
+        school_id:
+          type: integer
+          description: DCID of the school this section belongs to
+        staff_id:
+          type: integer
+          description: DCID of the teacher assigned to this section
+        term_id:
+          type: integer
+          description: DCID of the term this section is offered in
+    Error:
+      type: object
+      description: API error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error description
+        error:
+          type: string
+          description: Error code or type
+        status:
+          type: integer
+          description: HTTP status code
+    SectionsResponse:
+      type: object
+      description: Paginated list of section records
+      properties:
+        sections:
+          type: object
+          properties:
+            section:
+              oneOf:
+              - $ref: '#/components/schemas/Section'
+              - type: array
+                items:
+                  $ref: '#/components/schemas/Section'
+    ResourceCount:
+      type: object
+      description: Count of a resource collection
+      properties:
+        resource:
+          type: object
+          properties:
+            count:
+              type: integer
+              description: Total number of records in the resource collection
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained from /oauth/access_token/ using client credentials. Tokens expire and must be refreshed.
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: Basic auth with Base64-encoded client_id:client_secret for the token endpoint only.

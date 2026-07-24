@@ -1,0 +1,290 @@
+openapi: 3.0.3
+info:
+  title: PowerSchool SIS REST Authentication Schools API
+  description: The PowerSchool SIS REST API provides programmatic access to student information system data including student demographics, enrollment records, grades, attendance, master scheduling, and district reporting. The API uses OAuth 2.0 client credentials for authentication and returns data in JSON format. Endpoints follow the /ws/v1/ path convention and support GET, POST, PUT, and DELETE HTTP methods for full CRUD operations on supported resources. Authentication tokens are obtained via /oauth/access_token/ using Basic auth with client credentials provisioned through the PowerSchool Plugin Management Dashboard.
+  version: 1.0.0
+  contact:
+    name: PowerSchool Developer Support
+    url: https://help.powerschool.com/
+  termsOfService: https://www.powerschool.com/legal/
+servers:
+- url: https://{district}.powerschool.com
+  description: District PowerSchool instance
+  variables:
+    district:
+      description: The subdomain of the school district's PowerSchool installation
+      default: demo
+security:
+- BearerAuth: []
+tags:
+- name: Schools
+  description: School information and management
+paths:
+  /ws/v1/district/school:
+    get:
+      operationId: getSchools
+      summary: List all schools in district
+      description: Returns all schools in the current district, sorted by name. Supports pagination via pagesize and page query parameters.
+      tags:
+      - Schools
+      parameters:
+      - $ref: '#/components/parameters/PageSize'
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/Query'
+      - $ref: '#/components/parameters/Projection'
+      responses:
+        '200':
+          description: List of schools
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchoolsResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /ws/v1/district/school/count:
+    get:
+      operationId: getSchoolsCount
+      summary: Count schools in district
+      description: Returns the total count of schools in the current district.
+      tags:
+      - Schools
+      responses:
+        '200':
+          description: Count of schools
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceCount'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /ws/v1/school/{schoolDcid}:
+    get:
+      operationId: getSchool
+      summary: Get a specific school
+      description: Returns a single school record by its DCID.
+      tags:
+      - Schools
+      parameters:
+      - name: schoolDcid
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: The school's DCID (not school number)
+      responses:
+        '200':
+          description: School record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchoolResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: School not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  parameters:
+    PageSize:
+      name: pagesize
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 1000
+        default: 100
+      description: Number of records to return per page.
+    Page:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      description: Page number for paginated results (1-indexed).
+    Query:
+      name: q
+      in: query
+      required: false
+      schema:
+        type: string
+      description: 'Filter expression using FIQL-like syntax. Example: id=ge=10000 to filter records with id >= 10000.'
+      example: id=ge=10000
+    Projection:
+      name: projection
+      in: query
+      required: false
+      schema:
+        type: string
+      description: Comma-separated list of fields to include in the response. Omit to return all fields.
+      example: id,name,school_number
+  schemas:
+    School:
+      type: object
+      description: A school within a district
+      required:
+      - id
+      properties:
+        id:
+          type: integer
+          description: School DCID (district-level unique identifier)
+        school_number:
+          type: integer
+          description: School number (local identifier)
+        name:
+          type: string
+          description: Full name of the school
+        state_province_id:
+          type: string
+          description: State or province identifier
+        low_grade:
+          type: integer
+          description: Lowest grade level served (e.g., -2 for pre-K, 0 for K, 1-12)
+        high_grade:
+          type: integer
+          description: Highest grade level served
+        alternate_school_number:
+          type: integer
+          description: Alternate school number if applicable
+        addresses:
+          $ref: '#/components/schemas/Addresses'
+        phones:
+          $ref: '#/components/schemas/Phones'
+        principal:
+          $ref: '#/components/schemas/SchoolPrincipal'
+        assistant_principal:
+          $ref: '#/components/schemas/SchoolPrincipal'
+    SchoolPrincipal:
+      type: object
+      description: Principal or assistant principal contact info
+      properties:
+        email:
+          type: string
+          format: email
+          description: Principal's email address
+        name:
+          $ref: '#/components/schemas/Name'
+    PhoneNumber:
+      type: object
+      properties:
+        number:
+          type: string
+          description: Phone number string
+    Phones:
+      type: object
+      description: Phone numbers for a person or school
+      properties:
+        fax:
+          $ref: '#/components/schemas/PhoneNumber'
+        home_phone:
+          $ref: '#/components/schemas/PhoneNumber'
+        main:
+          $ref: '#/components/schemas/PhoneNumber'
+    SchoolsResponse:
+      type: object
+      description: Paginated list of school records
+      properties:
+        schools:
+          type: object
+          properties:
+            school:
+              oneOf:
+              - $ref: '#/components/schemas/School'
+              - type: array
+                items:
+                  $ref: '#/components/schemas/School'
+              description: Single school or array of schools
+    Address:
+      type: object
+      description: A mailing or physical address
+      properties:
+        city:
+          type: string
+          description: City name
+        postal_code:
+          type: integer
+          description: ZIP or postal code
+        state_province:
+          type: string
+          description: State or province abbreviation
+        street:
+          type: string
+          description: Street address line
+    Error:
+      type: object
+      description: API error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error description
+        error:
+          type: string
+          description: Error code or type
+        status:
+          type: integer
+          description: HTTP status code
+    ResourceCount:
+      type: object
+      description: Count of a resource collection
+      properties:
+        resource:
+          type: object
+          properties:
+            count:
+              type: integer
+              description: Total number of records in the resource collection
+    Addresses:
+      type: object
+      description: Collection of address types for a person or school
+      properties:
+        home:
+          $ref: '#/components/schemas/Address'
+        mailing:
+          $ref: '#/components/schemas/Address'
+        physical:
+          $ref: '#/components/schemas/Address'
+    SchoolResponse:
+      type: object
+      description: Single school record response
+      properties:
+        school:
+          $ref: '#/components/schemas/School'
+    Name:
+      type: object
+      description: A person's name parts
+      properties:
+        first_name:
+          type: string
+          description: Given name
+        middle_name:
+          type: string
+          description: Middle name
+        last_name:
+          type: string
+          description: Surname / family name
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained from /oauth/access_token/ using client credentials. Tokens expire and must be refreshed.
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: Basic auth with Base64-encoded client_id:client_secret for the token endpoint only.

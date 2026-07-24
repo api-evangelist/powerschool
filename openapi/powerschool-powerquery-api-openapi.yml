@@ -1,0 +1,130 @@
+openapi: 3.0.3
+info:
+  title: PowerSchool SIS REST Authentication PowerQuery API
+  description: The PowerSchool SIS REST API provides programmatic access to student information system data including student demographics, enrollment records, grades, attendance, master scheduling, and district reporting. The API uses OAuth 2.0 client credentials for authentication and returns data in JSON format. Endpoints follow the /ws/v1/ path convention and support GET, POST, PUT, and DELETE HTTP methods for full CRUD operations on supported resources. Authentication tokens are obtained via /oauth/access_token/ using Basic auth with client credentials provisioned through the PowerSchool Plugin Management Dashboard.
+  version: 1.0.0
+  contact:
+    name: PowerSchool Developer Support
+    url: https://help.powerschool.com/
+  termsOfService: https://www.powerschool.com/legal/
+servers:
+- url: https://{district}.powerschool.com
+  description: District PowerSchool instance
+  variables:
+    district:
+      description: The subdomain of the school district's PowerSchool installation
+      default: demo
+security:
+- BearerAuth: []
+tags:
+- name: PowerQuery
+  description: Named PowerQuery endpoints for complex data retrieval
+paths:
+  /ws/schema/query/{queryName}:
+    post:
+      operationId: executePowerQuery
+      summary: Execute a named PowerQuery
+      description: Executes a named PowerQuery to retrieve complex data sets. PowerQueries are predefined server-side queries identified by a dotted namespace string (e.g., com.pearson.core.teachers.sectionEnrollments). The request body provides filter parameters specific to each query.
+      tags:
+      - PowerQuery
+      parameters:
+      - name: queryName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The fully-qualified PowerQuery name (e.g., com.pearson.core.teachers.sectionEnrollments)
+        example: com.pearson.core.teachers.sectionEnrollments
+      - $ref: '#/components/parameters/PageSize'
+      - $ref: '#/components/parameters/Page'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Query-specific parameters. For example, sectionEnrollments accepts section_dcid as an array of section DCIDs.
+              additionalProperties: true
+              example:
+                section_dcid:
+                - '12345'
+                - '67890'
+      responses:
+        '200':
+          description: PowerQuery results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PowerQueryResponse'
+        '400':
+          description: Invalid query parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: PowerQuery not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  parameters:
+    PageSize:
+      name: pagesize
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 1000
+        default: 100
+      description: Number of records to return per page.
+    Page:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      description: Page number for paginated results (1-indexed).
+  schemas:
+    Error:
+      type: object
+      description: API error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error description
+        error:
+          type: string
+          description: Error code or type
+        status:
+          type: integer
+          description: HTTP status code
+    PowerQueryResponse:
+      type: object
+      description: Results from a named PowerQuery execution
+      properties:
+        record:
+          type: array
+          description: Array of result records; structure varies by query
+          items:
+            type: object
+            additionalProperties: true
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained from /oauth/access_token/ using client credentials. Tokens expire and must be refreshed.
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: Basic auth with Base64-encoded client_id:client_secret for the token endpoint only.
