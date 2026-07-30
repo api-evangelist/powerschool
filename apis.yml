@@ -10,7 +10,20 @@ description: PowerSchool is the leading provider of cloud-based K-12 student inf
   supports 75+ certified third-party integrations and custom API partnerships aligned
   with Ed-Fi Alliance and 1EdTech interoperability standards.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/powerschool.png
 url: https://raw.githubusercontent.com/api-evangelist/powerschool/refs/heads/main/apis.yml
 created: 2026-06-13
 modified: 2026-06-13
@@ -27,35 +40,134 @@ tags:
 - Scheduling
 - EdTech
 apis:
-- aid: powerschool:powerschool-sis-api
-  name: PowerSchool SIS REST API
-  description: The PowerSchool SIS REST API provides programmatic access to student
-    information system data including student demographics, enrollment records, grades,
-    attendance, master scheduling, and district reporting. The API uses OAuth 2.0
-    client credentials for authentication and returns data in JSON format. Endpoints
-    follow the /ws/v1/ path convention and support GET, POST, PUT, and DELETE HTTP
-    methods for full CRUD operations on supported resources.
+- aid: powerschool:powerschool-authentication-api
+  name: PowerSchool Authentication API
+  description: OAuth 2.0 token operations
   humanURL: https://support.powerschool.com/developer/
   baseURL: https://{district}.powerschool.com
   tags:
-  - Students
-  - Grades
-  - Attendance
-  - Enrollment
-  - Scheduling
-  - District Reporting
+  - Authentication
   properties:
+  - type: OpenAPI
+    url: openapi/powerschool-authentication-api-openapi.yml
   - type: Documentation
     url: https://support.powerschool.com/developer/
   - type: Authentication
     url: https://support.powerschool.com/developer/
+  - type: GraphQL
+    url: graphql/powerschool-graphql.md
+- aid: powerschool:powerschool-courses-api
+  name: PowerSchool Courses API
+  description: Course catalog information
+  humanURL: https://support.powerschool.com/developer/
+  baseURL: https://{district}.powerschool.com
+  tags:
+  - Courses
+  properties:
   - type: OpenAPI
-    url: openapi/powerschool-powerschool-sis-api-openapi.yml
-  - url: graphql/powerschool-graphql.md
-    type: GraphQL
-  contact:
-  - FN: PowerSchool Developer Support
-    url: https://help.powerschool.com/
+    url: openapi/powerschool-courses-api-openapi.yml
+  - type: Documentation
+    url: https://support.powerschool.com/developer/
+  - type: Authentication
+    url: https://support.powerschool.com/developer/
+  - type: GraphQL
+    url: graphql/powerschool-graphql.md
+- aid: powerschool:powerschool-district-api
+  name: PowerSchool District API
+  description: District-level resources
+  humanURL: https://support.powerschool.com/developer/
+  baseURL: https://{district}.powerschool.com
+  tags:
+  - District
+  properties:
+  - type: OpenAPI
+    url: openapi/powerschool-district-api-openapi.yml
+  - type: Documentation
+    url: https://support.powerschool.com/developer/
+  - type: Authentication
+    url: https://support.powerschool.com/developer/
+  - type: GraphQL
+    url: graphql/powerschool-graphql.md
+- aid: powerschool:powerschool-metadata-api
+  name: PowerSchool Metadata API
+  description: System metadata and configuration
+  humanURL: https://support.powerschool.com/developer/
+  baseURL: https://{district}.powerschool.com
+  tags:
+  - Metadata
+  properties:
+  - type: OpenAPI
+    url: openapi/powerschool-metadata-api-openapi.yml
+  - type: Documentation
+    url: https://support.powerschool.com/developer/
+  - type: Authentication
+    url: https://support.powerschool.com/developer/
+  - type: GraphQL
+    url: graphql/powerschool-graphql.md
+- aid: powerschool:powerschool-powerquery-api
+  name: PowerSchool PowerQuery API
+  description: Named PowerQuery endpoints for complex data retrieval
+  humanURL: https://support.powerschool.com/developer/
+  baseURL: https://{district}.powerschool.com
+  tags:
+  - PowerQuery
+  properties:
+  - type: OpenAPI
+    url: openapi/powerschool-powerquery-api-openapi.yml
+  - type: Documentation
+    url: https://support.powerschool.com/developer/
+  - type: Authentication
+    url: https://support.powerschool.com/developer/
+  - type: GraphQL
+    url: graphql/powerschool-graphql.md
+- aid: powerschool:powerschool-schools-api
+  name: PowerSchool Schools API
+  description: School information and management
+  humanURL: https://support.powerschool.com/developer/
+  baseURL: https://{district}.powerschool.com
+  tags:
+  - Schools
+  properties:
+  - type: OpenAPI
+    url: openapi/powerschool-schools-api-openapi.yml
+  - type: Documentation
+    url: https://support.powerschool.com/developer/
+  - type: Authentication
+    url: https://support.powerschool.com/developer/
+  - type: GraphQL
+    url: graphql/powerschool-graphql.md
+- aid: powerschool:powerschool-sections-api
+  name: PowerSchool Sections API
+  description: Course sections and scheduling
+  humanURL: https://support.powerschool.com/developer/
+  baseURL: https://{district}.powerschool.com
+  tags:
+  - Sections
+  properties:
+  - type: OpenAPI
+    url: openapi/powerschool-sections-api-openapi.yml
+  - type: Documentation
+    url: https://support.powerschool.com/developer/
+  - type: Authentication
+    url: https://support.powerschool.com/developer/
+  - type: GraphQL
+    url: graphql/powerschool-graphql.md
+- aid: powerschool:powerschool-students-api
+  name: PowerSchool Students API
+  description: Student demographics, enrollment, and records
+  humanURL: https://support.powerschool.com/developer/
+  baseURL: https://{district}.powerschool.com
+  tags:
+  - Students
+  properties:
+  - type: OpenAPI
+    url: openapi/powerschool-students-api-openapi.yml
+  - type: Documentation
+    url: https://support.powerschool.com/developer/
+  - type: Authentication
+    url: https://support.powerschool.com/developer/
+  - type: GraphQL
+    url: graphql/powerschool-graphql.md
 common:
 - type: AgenticAccess
   url: agentic-access/powerschool-agentic-access.yml
