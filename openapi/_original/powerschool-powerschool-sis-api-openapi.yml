@@ -1,0 +1,980 @@
+openapi: 3.0.3
+info:
+  title: PowerSchool SIS REST API
+  description: >-
+    The PowerSchool SIS REST API provides programmatic access to student
+    information system data including student demographics, enrollment records,
+    grades, attendance, master scheduling, and district reporting. The API uses
+    OAuth 2.0 client credentials for authentication and returns data in JSON
+    format. Endpoints follow the /ws/v1/ path convention and support GET, POST,
+    PUT, and DELETE HTTP methods for full CRUD operations on supported
+    resources. Authentication tokens are obtained via /oauth/access_token/ using
+    Basic auth with client credentials provisioned through the PowerSchool
+    Plugin Management Dashboard.
+  version: 1.0.0
+  contact:
+    name: PowerSchool Developer Support
+    url: https://help.powerschool.com/
+  termsOfService: https://www.powerschool.com/legal/
+servers:
+  - url: https://{district}.powerschool.com
+    description: District PowerSchool instance
+    variables:
+      district:
+        description: The subdomain of the school district's PowerSchool installation
+        default: demo
+security:
+  - BearerAuth: []
+tags:
+  - name: Authentication
+    description: OAuth 2.0 token operations
+  - name: District
+    description: District-level resources
+  - name: Schools
+    description: School information and management
+  - name: Students
+    description: Student demographics, enrollment, and records
+  - name: Sections
+    description: Course sections and scheduling
+  - name: Courses
+    description: Course catalog information
+  - name: Attendance
+    description: Attendance records
+  - name: Grades
+    description: Grade and assignment data
+  - name: Metadata
+    description: System metadata and configuration
+  - name: PowerQuery
+    description: Named PowerQuery endpoints for complex data retrieval
+paths:
+  /oauth/access_token/:
+    post:
+      operationId: getAccessToken
+      summary: Obtain OAuth 2.0 access token
+      description: >-
+        Exchange client credentials for a Bearer access token using the OAuth
+        2.0 client credentials grant type. The client_id and client_secret are
+        provisioned through the PowerSchool Plugin Management Dashboard.
+        Credentials must be Base64-encoded in the Authorization header as
+        Basic {base64(client_id:client_secret)}.
+      tags:
+        - Authentication
+      security:
+        - BasicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - grant_type
+              properties:
+                grant_type:
+                  type: string
+                  enum:
+                    - client_credentials
+                  description: Must be "client_credentials"
+      responses:
+        '200':
+          description: Access token issued successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '401':
+          description: Invalid client credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /ws/v1/metadata:
+    get:
+      operationId: getMetadata
+      summary: Get system metadata
+      description: >-
+        Returns system-level metadata including version information, page size
+        limits, plugin ID, and server uptime details.
+      tags:
+        - Metadata
+      responses:
+        '200':
+          description: System metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Metadata'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /ws/v1/district/school:
+    get:
+      operationId: getSchools
+      summary: List all schools in district
+      description: >-
+        Returns all schools in the current district, sorted by name. Supports
+        pagination via pagesize and page query parameters.
+      tags:
+        - Schools
+        - District
+      parameters:
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/Query'
+        - $ref: '#/components/parameters/Projection'
+      responses:
+        '200':
+          description: List of schools
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchoolsResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /ws/v1/district/school/count:
+    get:
+      operationId: getSchoolsCount
+      summary: Count schools in district
+      description: Returns the total count of schools in the current district.
+      tags:
+        - Schools
+        - District
+      responses:
+        '200':
+          description: Count of schools
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceCount'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /ws/v1/district/student:
+    get:
+      operationId: getStudentsInDistrict
+      summary: List all students in district
+      description: >-
+        Returns all students enrolled in the current district. Supports
+        pagination via pagesize and page query parameters, and filtering via
+        the q parameter (e.g., q=id=ge=10000).
+      tags:
+        - Students
+        - District
+      parameters:
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/Query'
+        - $ref: '#/components/parameters/Projection'
+      responses:
+        '200':
+          description: List of students
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentsResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /ws/v1/district/student/count:
+    get:
+      operationId: getStudentsInDistrictCount
+      summary: Count students in district
+      description: Returns the total count of students enrolled in the current district.
+      tags:
+        - Students
+        - District
+      responses:
+        '200':
+          description: Count of students
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceCount'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /ws/v1/district/student/{studentDcid}:
+    get:
+      operationId: getStudent
+      summary: Get a specific student
+      description: Returns a single student record by their DCID (district-level unique identifier).
+      tags:
+        - Students
+      parameters:
+        - name: studentDcid
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: The student's DCID (not student ID or student number)
+        - $ref: '#/components/parameters/Projection'
+      responses:
+        '200':
+          description: Student record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Student not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /ws/v1/school/{schoolDcid}:
+    get:
+      operationId: getSchool
+      summary: Get a specific school
+      description: Returns a single school record by its DCID.
+      tags:
+        - Schools
+      parameters:
+        - name: schoolDcid
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: The school's DCID (not school number)
+      responses:
+        '200':
+          description: School record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchoolResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: School not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /ws/v1/school/{schoolDcid}/course:
+    get:
+      operationId: getCoursesForSchool
+      summary: List courses for a school
+      description: >-
+        Returns all courses available at the given school for the current
+        school year. The schoolDcid is the school's DCID, not its ID or
+        school number.
+      tags:
+        - Courses
+      parameters:
+        - name: schoolDcid
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: The school's DCID (not school number or ID)
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/Query'
+      responses:
+        '200':
+          description: List of courses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CoursesResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /ws/v1/school/{schoolDcid}/course/count:
+    get:
+      operationId: getCoursesCountForSchool
+      summary: Count courses for a school
+      description: Returns the count of courses for the given school.
+      tags:
+        - Courses
+      parameters:
+        - name: schoolDcid
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: The school's DCID
+      responses:
+        '200':
+          description: Count of courses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceCount'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /ws/v1/school/{schoolDcid}/section:
+    get:
+      operationId: getSectionsForSchool
+      summary: List sections for a school
+      description: >-
+        Returns all course sections at the given school for the current
+        school year. The schoolDcid is the school's DCID, not its ID or
+        school number.
+      tags:
+        - Sections
+      parameters:
+        - name: schoolDcid
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: The school's DCID (not school number or ID)
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/Query'
+      responses:
+        '200':
+          description: List of sections
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SectionsResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /ws/v1/school/{schoolDcid}/section/count:
+    get:
+      operationId: getSectionsCountForSchool
+      summary: Count sections for a school
+      description: Returns the count of sections for the given school.
+      tags:
+        - Sections
+      parameters:
+        - name: schoolDcid
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: The school's DCID
+      responses:
+        '200':
+          description: Count of sections
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceCount'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /ws/schema/query/{queryName}:
+    post:
+      operationId: executePowerQuery
+      summary: Execute a named PowerQuery
+      description: >-
+        Executes a named PowerQuery to retrieve complex data sets. PowerQueries
+        are predefined server-side queries identified by a dotted namespace
+        string (e.g., com.pearson.core.teachers.sectionEnrollments). The
+        request body provides filter parameters specific to each query.
+      tags:
+        - PowerQuery
+      parameters:
+        - name: queryName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: >-
+            The fully-qualified PowerQuery name
+            (e.g., com.pearson.core.teachers.sectionEnrollments)
+          example: com.pearson.core.teachers.sectionEnrollments
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Page'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              description: >-
+                Query-specific parameters. For example, sectionEnrollments
+                accepts section_dcid as an array of section DCIDs.
+              additionalProperties: true
+              example:
+                section_dcid:
+                  - "12345"
+                  - "67890"
+      responses:
+        '200':
+          description: PowerQuery results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PowerQueryResponse'
+        '400':
+          description: Invalid query parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: PowerQuery not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /ws/schema/table/{tableName}:
+    get:
+      operationId: getSchemaTable
+      summary: Query a schema table
+      description: >-
+        Returns records from a named schema table. Supports filtering via q
+        parameter and pagination. Common tables include students, schools,
+        sections, cc (current courses), attendance, and more.
+      tags:
+        - District
+      parameters:
+        - name: tableName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The name of the schema table (e.g., schools, students, sections)
+          example: schools
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/Query'
+        - $ref: '#/components/parameters/Projection'
+      responses:
+        '200':
+          description: Table records
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemaTableResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Table not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /ws/schema/table/{tableName}/count:
+    get:
+      operationId: getSchemaTableCount
+      summary: Count records in a schema table
+      description: Returns the count of records in a named schema table.
+      tags:
+        - District
+      parameters:
+        - name: tableName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The name of the schema table
+      responses:
+        '200':
+          description: Record count
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceCount'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: >-
+        Bearer token obtained from /oauth/access_token/ using client
+        credentials. Tokens expire and must be refreshed.
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: >-
+        Basic auth with Base64-encoded client_id:client_secret for the
+        token endpoint only.
+  parameters:
+    PageSize:
+      name: pagesize
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 1000
+        default: 100
+      description: Number of records to return per page.
+    Page:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      description: Page number for paginated results (1-indexed).
+    Query:
+      name: q
+      in: query
+      required: false
+      schema:
+        type: string
+      description: >-
+        Filter expression using FIQL-like syntax. Example: id=ge=10000
+        to filter records with id >= 10000.
+      example: id=ge=10000
+    Projection:
+      name: projection
+      in: query
+      required: false
+      schema:
+        type: string
+      description: >-
+        Comma-separated list of fields to include in the response.
+        Omit to return all fields.
+      example: id,name,school_number
+  schemas:
+    Token:
+      type: object
+      description: OAuth 2.0 access token response
+      required:
+        - access_token
+        - token_type
+        - expires_in
+      properties:
+        access_token:
+          type: string
+          description: The Bearer access token value
+        token_type:
+          type: string
+          description: Token type, typically "Bearer"
+          example: Bearer
+        expires_in:
+          type: string
+          description: Token lifetime in seconds (returned as string)
+          example: "3600"
+    Metadata:
+      type: object
+      description: System-level metadata and configuration limits
+      properties:
+        course_max_page_size:
+          type: integer
+          description: Maximum page size for course queries
+        machine_uptime:
+          type: string
+          description: Server uptime duration
+        mobile_api_version:
+          type: string
+          description: Mobile API version string
+        plugin_id:
+          type: integer
+          description: Plugin identifier
+        powerschool_uptime:
+          type: string
+          description: PowerSchool application uptime
+        powerschool_version:
+          type: string
+          description: PowerSchool version string
+        powerteacher_version:
+          type: string
+          description: PowerTeacher version string
+        school_max_page_size:
+          type: integer
+          description: Maximum page size for school queries
+        schema_table_query_max_page_size:
+          type: integer
+          description: Maximum page size for schema table queries
+        section_max_page_size:
+          type: integer
+          description: Maximum page size for section queries
+        section_enrollment_max_page_size:
+          type: integer
+          description: Maximum page size for section enrollment queries
+        state_reporting_version:
+          type: string
+          description: State reporting module version
+        staff_max_page_size:
+          type: integer
+          description: Maximum page size for staff queries
+        state:
+          type: string
+          description: US state or province code for this installation
+        student_max_page_size:
+          type: integer
+          description: Maximum page size for student queries
+        term_max_page_size:
+          type: integer
+          description: Maximum page size for term queries
+    ResourceCount:
+      type: object
+      description: Count of a resource collection
+      properties:
+        resource:
+          type: object
+          properties:
+            count:
+              type: integer
+              description: Total number of records in the resource collection
+    Address:
+      type: object
+      description: A mailing or physical address
+      properties:
+        city:
+          type: string
+          description: City name
+        postal_code:
+          type: integer
+          description: ZIP or postal code
+        state_province:
+          type: string
+          description: State or province abbreviation
+        street:
+          type: string
+          description: Street address line
+    Addresses:
+      type: object
+      description: Collection of address types for a person or school
+      properties:
+        home:
+          $ref: '#/components/schemas/Address'
+        mailing:
+          $ref: '#/components/schemas/Address'
+        physical:
+          $ref: '#/components/schemas/Address'
+    PhoneNumber:
+      type: object
+      properties:
+        number:
+          type: string
+          description: Phone number string
+    Phones:
+      type: object
+      description: Phone numbers for a person or school
+      properties:
+        fax:
+          $ref: '#/components/schemas/PhoneNumber'
+        home_phone:
+          $ref: '#/components/schemas/PhoneNumber'
+        main:
+          $ref: '#/components/schemas/PhoneNumber'
+    Name:
+      type: object
+      description: A person's name parts
+      properties:
+        first_name:
+          type: string
+          description: Given name
+        middle_name:
+          type: string
+          description: Middle name
+        last_name:
+          type: string
+          description: Surname / family name
+    Demographics:
+      type: object
+      description: Demographic information for a student
+      properties:
+        birth_date:
+          type: string
+          format: date
+          description: Student's date of birth (YYYY-MM-DD)
+        district_entry_date:
+          type: string
+          format: date
+          description: Date the student entered the district
+        gender:
+          type: string
+          description: Gender identifier as defined by the school/district
+        projected_graduation_year:
+          type: integer
+          description: Projected graduation year
+    Student:
+      type: object
+      description: A student record with demographics and contact information
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          description: Student DCID (district-level unique identifier)
+        local_id:
+          type: integer
+          description: Student number (local identifier within district)
+        student_username:
+          type: string
+          description: Student's portal username
+        name:
+          $ref: '#/components/schemas/Name'
+        demographics:
+          $ref: '#/components/schemas/Demographics'
+        addresses:
+          $ref: '#/components/schemas/Addresses'
+        phones:
+          $ref: '#/components/schemas/Phones'
+    StudentsResponse:
+      type: object
+      description: Paginated list of student records
+      properties:
+        students:
+          type: object
+          properties:
+            student:
+              oneOf:
+                - $ref: '#/components/schemas/Student'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/Student'
+              description: >-
+                Single student object or array of student objects depending
+                on result count
+    StudentResponse:
+      type: object
+      description: Single student record response
+      properties:
+        student:
+          $ref: '#/components/schemas/Student'
+    SchoolPrincipal:
+      type: object
+      description: Principal or assistant principal contact info
+      properties:
+        email:
+          type: string
+          format: email
+          description: Principal's email address
+        name:
+          $ref: '#/components/schemas/Name'
+    School:
+      type: object
+      description: A school within a district
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          description: School DCID (district-level unique identifier)
+        school_number:
+          type: integer
+          description: School number (local identifier)
+        name:
+          type: string
+          description: Full name of the school
+        state_province_id:
+          type: string
+          description: State or province identifier
+        low_grade:
+          type: integer
+          description: Lowest grade level served (e.g., -2 for pre-K, 0 for K, 1-12)
+        high_grade:
+          type: integer
+          description: Highest grade level served
+        alternate_school_number:
+          type: integer
+          description: Alternate school number if applicable
+        addresses:
+          $ref: '#/components/schemas/Addresses'
+        phones:
+          $ref: '#/components/schemas/Phones'
+        principal:
+          $ref: '#/components/schemas/SchoolPrincipal'
+        assistant_principal:
+          $ref: '#/components/schemas/SchoolPrincipal'
+    SchoolsResponse:
+      type: object
+      description: Paginated list of school records
+      properties:
+        schools:
+          type: object
+          properties:
+            school:
+              oneOf:
+                - $ref: '#/components/schemas/School'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/School'
+              description: Single school or array of schools
+    SchoolResponse:
+      type: object
+      description: Single school record response
+      properties:
+        school:
+          $ref: '#/components/schemas/School'
+    Course:
+      type: object
+      description: A course in the district course catalog
+      properties:
+        id:
+          type: integer
+          description: Course DCID
+        course_number:
+          type: string
+          description: Course code / number (e.g., "MATH101")
+        course_name:
+          type: string
+          description: Full name of the course
+    CoursesResponse:
+      type: object
+      description: Paginated list of course records
+      properties:
+        courses:
+          type: object
+          properties:
+            course:
+              oneOf:
+                - $ref: '#/components/schemas/Course'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/Course'
+    Section:
+      type: object
+      description: A course section (a specific offering of a course in a given period and room)
+      properties:
+        id:
+          type: integer
+          description: Section DCID
+        course_id:
+          type: integer
+          description: The DCID of the associated course
+        section_number:
+          type: integer
+          description: Section number
+        expression:
+          type: string
+          description: Period expression string (e.g., "1(A)")
+        external_expression:
+          type: string
+          description: External period expression for display
+        gradebooktype:
+          type: string
+          description: Gradebook type identifier
+        school_id:
+          type: integer
+          description: DCID of the school this section belongs to
+        staff_id:
+          type: integer
+          description: DCID of the teacher assigned to this section
+        term_id:
+          type: integer
+          description: DCID of the term this section is offered in
+    SectionsResponse:
+      type: object
+      description: Paginated list of section records
+      properties:
+        sections:
+          type: object
+          properties:
+            section:
+              oneOf:
+                - $ref: '#/components/schemas/Section'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/Section'
+    StudentItem:
+      type: object
+      description: Student enrollment record returned by PowerQuery
+      properties:
+        dcid:
+          type: string
+          description: Student DCID (returned as string in PowerQuery results)
+        first_name:
+          type: string
+          description: Student's given name
+        last_name:
+          type: string
+          description: Student's surname
+        lastfirst:
+          type: string
+          description: Combined "Last, First" display name
+        grade_level:
+          type: string
+          description: Current grade level (returned as string)
+        gender:
+          type: string
+          description: Gender identifier
+        id:
+          type: string
+          description: Student ID (returned as string)
+        student_number:
+          type: string
+          description: Student number (returned as string)
+    PowerQueryResponse:
+      type: object
+      description: Results from a named PowerQuery execution
+      properties:
+        record:
+          type: array
+          description: Array of result records; structure varies by query
+          items:
+            type: object
+            additionalProperties: true
+    SchemaTableResponse:
+      type: object
+      description: Records from a schema table query
+      properties:
+        record:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+          description: >-
+            Array of records from the table; field names match column names
+            in the schema table
+    Error:
+      type: object
+      description: API error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error description
+        error:
+          type: string
+          description: Error code or type
+        status:
+          type: integer
+          description: HTTP status code

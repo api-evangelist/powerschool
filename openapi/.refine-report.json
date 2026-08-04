@@ -1,0 +1,28 @@
+{
+  "provider": "powerschool",
+  "sources": [
+    "powerschool-authentication-api-openapi.yml",
+    "powerschool-courses-api-openapi.yml",
+    "powerschool-district-api-openapi.yml",
+    "powerschool-metadata-api-openapi.yml",
+    "powerschool-powerquery-api-openapi.yml",
+    "powerschool-schools-api-openapi.yml",
+    "powerschool-sections-api-openapi.yml",
+    "powerschool-students-api-openapi.yml"
+  ],
+  "outputs": [
+    "powerschool-authentication-api-openapi.yml",
+    "powerschool-courses-api-openapi.yml",
+    "powerschool-district-api-openapi.yml",
+    "powerschool-metadata-api-openapi.yml",
+    "powerschool-powerquery-api-openapi.yml",
+    "powerschool-schools-api-openapi.yml",
+    "powerschool-sections-api-openapi.yml",
+    "powerschool-students-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
