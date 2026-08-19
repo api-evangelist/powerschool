@@ -1,0 +1,97 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PowerSchool SIS REST Authentication Students API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Students",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all students in district",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{district}.powerschool.com/ws/v1/district/student",
+            "params": [
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return per page."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results (1-indexed)."
+              },
+              {
+                "name": "q",
+                "value": "id=ge=10000",
+                "type": "query",
+                "description": "Filter expression using FIQL-like syntax. Example: id=ge=10000 to filter records with id >= 10000."
+              },
+              {
+                "name": "projection",
+                "value": "id,name,school_number",
+                "type": "query",
+                "description": "Comma-separated list of fields to include in the response. Omit to return all fields."
+              }
+            ]
+          },
+          "docs": "Returns all students enrolled in the current district. Supports pagination via pagesize and page query parameters, and filtering via the q parameter (e.g., q=id=ge=10000)."
+        },
+        {
+          "info": {
+            "name": "Count students in district",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{district}.powerschool.com/ws/v1/district/student/count"
+          },
+          "docs": "Returns the total count of students enrolled in the current district."
+        },
+        {
+          "info": {
+            "name": "Get a specific student",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{district}.powerschool.com/ws/v1/district/student/:studentDcid",
+            "params": [
+              {
+                "name": "studentDcid",
+                "value": "",
+                "type": "path",
+                "description": "The student's DCID (not student ID or student number)"
+              },
+              {
+                "name": "projection",
+                "value": "id,name,school_number",
+                "type": "query",
+                "description": "Comma-separated list of fields to include in the response. Omit to return all fields."
+              }
+            ]
+          },
+          "docs": "Returns a single student record by their DCID (district-level unique identifier)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

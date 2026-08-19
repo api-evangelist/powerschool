@@ -1,0 +1,198 @@
+{
+  "item": [
+    {
+      "id": "4e636535-a96f-4b71-bdc5-4676d4a12ecb",
+      "name": "Metadata",
+      "description": {
+        "content": "System metadata and configuration",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9e308b25-c131-46b1-b8bc-ac6d94980efc",
+          "name": "Get system metadata",
+          "request": {
+            "name": "Get system metadata",
+            "description": {
+              "content": "Returns system-level metadata including version information, page size limits, plugin ID, and server uptime details.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ws",
+                "v1",
+                "metadata"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The subdomain of the school district's PowerSchool installation",
+                  "type": "any",
+                  "value": "{{district}}",
+                  "key": "district"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7ea3633c-df0d-4ddc-8cd9-37c32c3fc86a",
+              "name": "System metadata",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ws",
+                    "v1",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The subdomain of the school district's PowerSchool installation",
+                      "type": "any",
+                      "value": "{{district}}",
+                      "key": "district"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"course_max_page_size\": 8143,\n  \"machine_uptime\": \"string\",\n  \"mobile_api_version\": \"string\",\n  \"plugin_id\": 2494,\n  \"powerschool_uptime\": \"string\",\n  \"powerschool_version\": \"string\",\n  \"powerteacher_version\": \"string\",\n  \"school_max_page_size\": 7690,\n  \"schema_table_query_max_page_size\": 7053,\n  \"section_max_page_size\": 8657,\n  \"section_enrollment_max_page_size\": 4977,\n  \"state_reporting_version\": \"string\",\n  \"staff_max_page_size\": 5364,\n  \"state\": \"string\",\n  \"student_max_page_size\": 7939,\n  \"term_max_page_size\": 4756\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c7e01621-969a-4f66-bab7-96dcab4f6aa7",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ws",
+                    "v1",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The subdomain of the school district's PowerSchool installation",
+                      "type": "any",
+                      "value": "{{district}}",
+                      "key": "district"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"error\": \"string\",\n  \"status\": 9567\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The subdomain of the school district's PowerSchool installation",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "demo",
+      "key": "district"
+    },
+    {
+      "type": "string",
+      "value": "https://{{district}}.powerschool.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "55ddbcd3-ea9e-4ed0-835d-132179df33bc",
+    "name": "PowerSchool SIS REST Authentication Metadata API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The PowerSchool SIS REST API provides programmatic access to student information system data including student demographics, enrollment records, grades, attendance, master scheduling, and district reporting. The API uses OAuth 2.0 client credentials for authentication and returns data in JSON format. Endpoints follow the /ws/v1/ path convention and support GET, POST, PUT, and DELETE HTTP methods for full CRUD operations on supported resources. Authentication tokens are obtained via /oauth/access_token/ using Basic auth with client credentials provisioned through the PowerSchool Plugin Management Dashboard.\n\nContact Support:\n Name: PowerSchool Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

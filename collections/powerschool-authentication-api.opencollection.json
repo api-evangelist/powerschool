@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PowerSchool SIS REST Authentication API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Obtain OAuth 2.0 access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{district}.powerschool.com/oauth/access_token/",
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "grant_type",
+                  "value": ""
+                }
+              ]
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Exchange client credentials for a Bearer access token using the OAuth 2.0 client credentials grant type. The client_id and client_secret are provisioned through the PowerSchool Plugin Management Dashboard. Credentials must be Base64-encoded in the Authorization header as Basic {base64(client_id:client_secret)}."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

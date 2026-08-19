@@ -1,0 +1,646 @@
+{
+  "item": [
+    {
+      "id": "8e641f30-e6d5-42e9-bbae-73f2b19f570a",
+      "name": "Schools",
+      "description": {
+        "content": "School information and management",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7f3eb9b0-8eba-411d-81eb-4a5b90ed1659",
+          "name": "List all schools in district",
+          "request": {
+            "name": "List all schools in district",
+            "description": {
+              "content": "Returns all schools in the current district, sorted by name. Supports pagination via pagesize and page query parameters.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ws",
+                "v1",
+                "district",
+                "school"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pagesize",
+                  "value": "100",
+                  "description": "Number of records to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number for paginated results (1-indexed)."
+                },
+                {
+                  "disabled": false,
+                  "key": "q",
+                  "value": "<string>",
+                  "description": "Filter expression using FIQL-like syntax. Example: id=ge=10000 to filter records with id >= 10000."
+                },
+                {
+                  "disabled": false,
+                  "key": "projection",
+                  "value": "<string>",
+                  "description": "Comma-separated list of fields to include in the response. Omit to return all fields."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "The subdomain of the school district's PowerSchool installation",
+                  "type": "any",
+                  "value": "{{district}}",
+                  "key": "district"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f3413b0c-b446-410e-a233-1fbeeb3ef786",
+              "name": "List of schools",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ws",
+                    "v1",
+                    "district",
+                    "school"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pagesize",
+                      "value": "100"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "q",
+                      "value": "id=ge=10000"
+                    },
+                    {
+                      "key": "projection",
+                      "value": "id,name,school_number"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "The subdomain of the school district's PowerSchool installation",
+                      "type": "any",
+                      "value": "{{district}}",
+                      "key": "district"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"schools\": {\n    \"school\": {\n      \"id\": 9139,\n      \"school_number\": 3650,\n      \"name\": \"string\",\n      \"state_province_id\": \"string\",\n      \"low_grade\": 8545,\n      \"high_grade\": 5077,\n      \"alternate_school_number\": 4775,\n      \"addresses\": {\n        \"home\": {\n          \"city\": \"string\",\n          \"postal_code\": 2358,\n          \"state_province\": \"string\",\n          \"street\": \"string\"\n        },\n        \"mailing\": {\n          \"city\": \"string\",\n          \"postal_code\": 7177,\n          \"state_province\": \"string\",\n          \"street\": \"string\"\n        },\n        \"physical\": {\n          \"city\": \"string\",\n          \"postal_code\": 7037,\n          \"state_province\": \"string\",\n          \"street\": \"string\"\n        }\n      },\n      \"phones\": {\n        \"fax\": {\n          \"number\": \"string\"\n        },\n        \"home_phone\": {\n          \"number\": \"string\"\n        },\n        \"main\": {\n          \"number\": \"string\"\n        }\n      },\n      \"principal\": {\n        \"email\": \"TX7iCBpV5pxk430@xuBnxkWnDFnURCkdbMu.xcv\",\n        \"name\": {\n          \"first_name\": \"string\",\n          \"middle_name\": \"string\",\n          \"last_name\": \"string\"\n        }\n      },\n      \"assistant_principal\": {\n        \"email\": \"eR3EYJrlQYLxYeo@YvKwUVS.dxx\",\n        \"name\": {\n          \"first_name\": \"string\",\n          \"middle_name\": \"string\",\n          \"last_name\": \"string\"\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3f002bd7-5e42-4408-834f-a78d680daa8f",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ws",
+                    "v1",
+                    "district",
+                    "school"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pagesize",
+                      "value": "100"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "q",
+                      "value": "id=ge=10000"
+                    },
+                    {
+                      "key": "projection",
+                      "value": "id,name,school_number"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "The subdomain of the school district's PowerSchool installation",
+                      "type": "any",
+                      "value": "{{district}}",
+                      "key": "district"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"error\": \"string\",\n  \"status\": 3406\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c2a05b28-84d5-4dfb-ac4f-2d7c9a538f3b",
+          "name": "Count schools in district",
+          "request": {
+            "name": "Count schools in district",
+            "description": {
+              "content": "Returns the total count of schools in the current district.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ws",
+                "v1",
+                "district",
+                "school",
+                "count"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The subdomain of the school district's PowerSchool installation",
+                  "type": "any",
+                  "value": "{{district}}",
+                  "key": "district"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "44afc583-8e32-42a6-b11d-6d46697ae806",
+              "name": "Count of schools",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ws",
+                    "v1",
+                    "district",
+                    "school",
+                    "count"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The subdomain of the school district's PowerSchool installation",
+                      "type": "any",
+                      "value": "{{district}}",
+                      "key": "district"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"resource\": {\n    \"count\": 3482\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "817200a6-4d69-4d3a-acbc-3ea835f980a1",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ws",
+                    "v1",
+                    "district",
+                    "school",
+                    "count"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The subdomain of the school district's PowerSchool installation",
+                      "type": "any",
+                      "value": "{{district}}",
+                      "key": "district"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"error\": \"string\",\n  \"status\": 3406\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3541c51a-6f17-4ce4-9eb0-d60eab41307e",
+          "name": "Get a specific school",
+          "request": {
+            "name": "Get a specific school",
+            "description": {
+              "content": "Returns a single school record by its DCID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ws",
+                "v1",
+                "school",
+                ":schoolDcid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "schoolDcid",
+                  "description": "(Required) The school's DCID (not school number)"
+                },
+                {
+                  "description": "The subdomain of the school district's PowerSchool installation",
+                  "type": "any",
+                  "value": "{{district}}",
+                  "key": "district"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "558e52f6-2e35-4a37-9456-379eda109d41",
+              "name": "School record",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ws",
+                    "v1",
+                    "school",
+                    ":schoolDcid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "schoolDcid",
+                      "description": "(Required) The school's DCID (not school number)"
+                    },
+                    {
+                      "description": "The subdomain of the school district's PowerSchool installation",
+                      "type": "any",
+                      "value": "{{district}}",
+                      "key": "district"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"school\": {\n    \"id\": 2087,\n    \"school_number\": 1636,\n    \"name\": \"string\",\n    \"state_province_id\": \"string\",\n    \"low_grade\": 8803,\n    \"high_grade\": 2833,\n    \"alternate_school_number\": 2412,\n    \"addresses\": {\n      \"home\": {\n        \"city\": \"string\",\n        \"postal_code\": 2034,\n        \"state_province\": \"string\",\n        \"street\": \"string\"\n      },\n      \"mailing\": {\n        \"city\": \"string\",\n        \"postal_code\": 8244,\n        \"state_province\": \"string\",\n        \"street\": \"string\"\n      },\n      \"physical\": {\n        \"city\": \"string\",\n        \"postal_code\": 9804,\n        \"state_province\": \"string\",\n        \"street\": \"string\"\n      }\n    },\n    \"phones\": {\n      \"fax\": {\n        \"number\": \"string\"\n      },\n      \"home_phone\": {\n        \"number\": \"string\"\n      },\n      \"main\": {\n        \"number\": \"string\"\n      }\n    },\n    \"principal\": {\n      \"email\": \"t3YtDsEE-v@bIOtFsMubMkzAFGDCOLxkI.jhh\",\n      \"name\": {\n        \"first_name\": \"string\",\n        \"middle_name\": \"string\",\n        \"last_name\": \"string\"\n      }\n    },\n    \"assistant_principal\": {\n      \"email\": \"qERW-jeAuOqz4l@ZNgbCagpOKJwGKCNgxfLvYdHfyytkP.chzj\",\n      \"name\": {\n        \"first_name\": \"string\",\n        \"middle_name\": \"string\",\n        \"last_name\": \"string\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4626fbb5-da05-47c4-a57f-f4cca724b416",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ws",
+                    "v1",
+                    "school",
+                    ":schoolDcid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "schoolDcid",
+                      "description": "(Required) The school's DCID (not school number)"
+                    },
+                    {
+                      "description": "The subdomain of the school district's PowerSchool installation",
+                      "type": "any",
+                      "value": "{{district}}",
+                      "key": "district"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"error\": \"string\",\n  \"status\": 3406\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8251f83b-a163-4a63-ad96-1be6cded99ef",
+              "name": "School not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ws",
+                    "v1",
+                    "school",
+                    ":schoolDcid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "schoolDcid",
+                      "description": "(Required) The school's DCID (not school number)"
+                    },
+                    {
+                      "description": "The subdomain of the school district's PowerSchool installation",
+                      "type": "any",
+                      "value": "{{district}}",
+                      "key": "district"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"error\": \"string\",\n  \"status\": 3406\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The subdomain of the school district's PowerSchool installation",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "demo",
+      "key": "district"
+    },
+    {
+      "type": "string",
+      "value": "https://{{district}}.powerschool.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c973f241-96d9-409d-b0a6-9138a15dcf3e",
+    "name": "PowerSchool SIS REST Authentication Schools API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The PowerSchool SIS REST API provides programmatic access to student information system data including student demographics, enrollment records, grades, attendance, master scheduling, and district reporting. The API uses OAuth 2.0 client credentials for authentication and returns data in JSON format. Endpoints follow the /ws/v1/ path convention and support GET, POST, PUT, and DELETE HTTP methods for full CRUD operations on supported resources. Authentication tokens are obtained via /oauth/access_token/ using Basic auth with client credentials provisioned through the PowerSchool Plugin Management Dashboard.\n\nContact Support:\n Name: PowerSchool Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,436 @@
+{
+  "item": [
+    {
+      "id": "787ed624-ae89-4427-bb73-82c2522c6d3d",
+      "name": "PowerQuery",
+      "description": {
+        "content": "Named PowerQuery endpoints for complex data retrieval",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a5af2511-d4c4-4a4b-a99c-22a0dd5a58e9",
+          "name": "Execute a named PowerQuery",
+          "request": {
+            "name": "Execute a named PowerQuery",
+            "description": {
+              "content": "Executes a named PowerQuery to retrieve complex data sets. PowerQueries are predefined server-side queries identified by a dotted namespace string (e.g., com.pearson.core.teachers.sectionEnrollments). The request body provides filter parameters specific to each query.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ws",
+                "schema",
+                "query",
+                ":queryName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pagesize",
+                  "value": "100",
+                  "description": "Number of records to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number for paginated results (1-indexed)."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "queryName",
+                  "description": "(Required) The fully-qualified PowerQuery name (e.g., com.pearson.core.teachers.sectionEnrollments)"
+                },
+                {
+                  "description": "The subdomain of the school district's PowerSchool installation",
+                  "type": "any",
+                  "value": "{{district}}",
+                  "key": "district"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"key_0\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f846637b-1a4b-41bc-8b11-ee49b2322597",
+              "name": "PowerQuery results",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ws",
+                    "schema",
+                    "query",
+                    ":queryName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pagesize",
+                      "value": "100"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "queryName",
+                      "description": "(Required) The fully-qualified PowerQuery name (e.g., com.pearson.core.teachers.sectionEnrollments)"
+                    },
+                    {
+                      "description": "The subdomain of the school district's PowerSchool installation",
+                      "type": "any",
+                      "value": "{{district}}",
+                      "key": "district"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"section_dcid\": [\n    \"12345\",\n    \"67890\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"record\": [\n    {\n      \"key_0\": \"string\",\n      \"key_1\": 911.2718442095868\n    },\n    {\n      \"key_0\": false\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3fe95716-1fa3-4b4c-99f2-aa58edd7bda2",
+              "name": "Invalid query parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ws",
+                    "schema",
+                    "query",
+                    ":queryName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pagesize",
+                      "value": "100"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "queryName",
+                      "description": "(Required) The fully-qualified PowerQuery name (e.g., com.pearson.core.teachers.sectionEnrollments)"
+                    },
+                    {
+                      "description": "The subdomain of the school district's PowerSchool installation",
+                      "type": "any",
+                      "value": "{{district}}",
+                      "key": "district"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"section_dcid\": [\n    \"12345\",\n    \"67890\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"error\": \"string\",\n  \"status\": 2522\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "45fc0703-6e73-44cc-b811-c63cd068d8fa",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ws",
+                    "schema",
+                    "query",
+                    ":queryName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pagesize",
+                      "value": "100"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "queryName",
+                      "description": "(Required) The fully-qualified PowerQuery name (e.g., com.pearson.core.teachers.sectionEnrollments)"
+                    },
+                    {
+                      "description": "The subdomain of the school district's PowerSchool installation",
+                      "type": "any",
+                      "value": "{{district}}",
+                      "key": "district"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"section_dcid\": [\n    \"12345\",\n    \"67890\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"error\": \"string\",\n  \"status\": 2522\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "23975034-6fbb-4ebc-84c9-843e1a28fb51",
+              "name": "PowerQuery not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ws",
+                    "schema",
+                    "query",
+                    ":queryName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pagesize",
+                      "value": "100"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "queryName",
+                      "description": "(Required) The fully-qualified PowerQuery name (e.g., com.pearson.core.teachers.sectionEnrollments)"
+                    },
+                    {
+                      "description": "The subdomain of the school district's PowerSchool installation",
+                      "type": "any",
+                      "value": "{{district}}",
+                      "key": "district"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"section_dcid\": [\n    \"12345\",\n    \"67890\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"error\": \"string\",\n  \"status\": 2522\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The subdomain of the school district's PowerSchool installation",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "demo",
+      "key": "district"
+    },
+    {
+      "type": "string",
+      "value": "https://{{district}}.powerschool.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "ca09893a-3031-41ed-baf0-beabf56db9f6",
+    "name": "PowerSchool SIS REST Authentication PowerQuery API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The PowerSchool SIS REST API provides programmatic access to student information system data including student demographics, enrollment records, grades, attendance, master scheduling, and district reporting. The API uses OAuth 2.0 client credentials for authentication and returns data in JSON format. Endpoints follow the /ws/v1/ path convention and support GET, POST, PUT, and DELETE HTTP methods for full CRUD operations on supported resources. Authentication tokens are obtained via /oauth/access_token/ using Basic auth with client credentials provisioned through the PowerSchool Plugin Management Dashboard.\n\nContact Support:\n Name: PowerSchool Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

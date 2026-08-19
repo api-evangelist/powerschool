@@ -1,0 +1,251 @@
+{
+  "item": [
+    {
+      "id": "e19c34ef-2b77-4dfa-86c6-9ce9a2b075c5",
+      "name": "Authentication",
+      "description": {
+        "content": "OAuth 2.0 token operations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "39cc1596-e940-405e-a989-73588d3b37cb",
+          "name": "Obtain OAuth 2.0 access token",
+          "request": {
+            "name": "Obtain OAuth 2.0 access token",
+            "description": {
+              "content": "Exchange client credentials for a Bearer access token using the OAuth 2.0 client credentials grant type. The client_id and client_secret are provisioned through the PowerSchool Plugin Management Dashboard. Credentials must be Base64-encoded in the Authorization header as Basic {base64(client_id:client_secret)}.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "oauth",
+                "access_token",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The subdomain of the school district's PowerSchool installation",
+                  "type": "any",
+                  "value": "{{district}}",
+                  "key": "district"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "grant_type",
+                  "value": "<string>",
+                  "description": "(Required) Must be \"client_credentials\""
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "6a85ac78-ff4b-4006-b5e7-8bf3519f0305",
+              "name": "Access token issued successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "oauth",
+                    "access_token",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The subdomain of the school district's PowerSchool installation",
+                      "type": "any",
+                      "value": "{{district}}",
+                      "key": "district"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Must be \"client_credentials\"",
+                        "type": "text/plain"
+                      },
+                      "key": "grant_type",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"access_token\": \"string\",\n  \"token_type\": \"Bearer\",\n  \"expires_in\": \"3600\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c9b63235-0409-4345-9fad-97adc3cac82f",
+              "name": "Invalid client credentials",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "oauth",
+                    "access_token",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The subdomain of the school district's PowerSchool installation",
+                      "type": "any",
+                      "value": "{{district}}",
+                      "key": "district"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Must be \"client_credentials\"",
+                        "type": "text/plain"
+                      },
+                      "key": "grant_type",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"error\": \"string\",\n  \"status\": 9041\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The subdomain of the school district's PowerSchool installation",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "demo",
+      "key": "district"
+    },
+    {
+      "type": "string",
+      "value": "https://{{district}}.powerschool.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0f6edb69-f114-400b-b3ea-2213d1ca8b88",
+    "name": "PowerSchool SIS REST Authentication API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The PowerSchool SIS REST API provides programmatic access to student information system data including student demographics, enrollment records, grades, attendance, master scheduling, and district reporting. The API uses OAuth 2.0 client credentials for authentication and returns data in JSON format. Endpoints follow the /ws/v1/ path convention and support GET, POST, PUT, and DELETE HTTP methods for full CRUD operations on supported resources. Authentication tokens are obtained via /oauth/access_token/ using Basic auth with client credentials provisioned through the PowerSchool Plugin Management Dashboard.\n\nContact Support:\n Name: PowerSchool Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PowerSchool SIS REST Authentication Courses API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Courses",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List courses for a school",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{district}.powerschool.com/ws/v1/school/:schoolDcid/course",
+            "params": [
+              {
+                "name": "schoolDcid",
+                "value": "",
+                "type": "path",
+                "description": "The school's DCID (not school number or ID)"
+              },
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return per page."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results (1-indexed)."
+              },
+              {
+                "name": "q",
+                "value": "id=ge=10000",
+                "type": "query",
+                "description": "Filter expression using FIQL-like syntax. Example: id=ge=10000 to filter records with id >= 10000."
+              }
+            ]
+          },
+          "docs": "Returns all courses available at the given school for the current school year. The schoolDcid is the school's DCID, not its ID or school number."
+        },
+        {
+          "info": {
+            "name": "Count courses for a school",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{district}.powerschool.com/ws/v1/school/:schoolDcid/course/count",
+            "params": [
+              {
+                "name": "schoolDcid",
+                "value": "",
+                "type": "path",
+                "description": "The school's DCID"
+              }
+            ]
+          },
+          "docs": "Returns the count of courses for the given school."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

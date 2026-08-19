@@ -1,0 +1,91 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PowerSchool SIS REST Authentication Schools API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Schools",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all schools in district",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{district}.powerschool.com/ws/v1/district/school",
+            "params": [
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return per page."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results (1-indexed)."
+              },
+              {
+                "name": "q",
+                "value": "id=ge=10000",
+                "type": "query",
+                "description": "Filter expression using FIQL-like syntax. Example: id=ge=10000 to filter records with id >= 10000."
+              },
+              {
+                "name": "projection",
+                "value": "id,name,school_number",
+                "type": "query",
+                "description": "Comma-separated list of fields to include in the response. Omit to return all fields."
+              }
+            ]
+          },
+          "docs": "Returns all schools in the current district, sorted by name. Supports pagination via pagesize and page query parameters."
+        },
+        {
+          "info": {
+            "name": "Count schools in district",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{district}.powerschool.com/ws/v1/district/school/count"
+          },
+          "docs": "Returns the total count of schools in the current district."
+        },
+        {
+          "info": {
+            "name": "Get a specific school",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{district}.powerschool.com/ws/v1/school/:schoolDcid",
+            "params": [
+              {
+                "name": "schoolDcid",
+                "value": "",
+                "type": "path",
+                "description": "The school's DCID (not school number)"
+              }
+            ]
+          },
+          "docs": "Returns a single school record by its DCID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

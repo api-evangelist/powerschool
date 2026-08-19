@@ -1,0 +1,59 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PowerSchool SIS REST Authentication PowerQuery API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "PowerQuery",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute a named PowerQuery",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{district}.powerschool.com/ws/schema/query/:queryName",
+            "params": [
+              {
+                "name": "queryName",
+                "value": "com.pearson.core.teachers.sectionEnrollments",
+                "type": "path",
+                "description": "The fully-qualified PowerQuery name (e.g., com.pearson.core.teachers.sectionEnrollments)"
+              },
+              {
+                "name": "pagesize",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return per page."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results (1-indexed)."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Executes a named PowerQuery to retrieve complex data sets. PowerQueries are predefined server-side queries identified by a dotted namespace string (e.g., com.pearson.core.teachers.sectionEnrollments). The request body provides filter parameters specific to each query."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

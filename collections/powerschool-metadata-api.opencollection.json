@@ -1,0 +1,35 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PowerSchool SIS REST Authentication Metadata API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Metadata",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get system metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{district}.powerschool.com/ws/v1/metadata"
+          },
+          "docs": "Returns system-level metadata including version information, page size limits, plugin ID, and server uptime details."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
