@@ -10,6 +10,18 @@ description: PowerSchool is the leading provider of cloud-based K-12 student inf
   supports 75+ certified third-party integrations and custom API partnerships aligned
   with Ed-Fi Alliance and 1EdTech interoperability standards.
 type: Index
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: self-serve
