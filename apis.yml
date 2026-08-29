@@ -181,6 +181,9 @@ apis:
   - type: GraphQL
     url: graphql/powerschool-graphql.md
 common:
+- type: CapabilityMap
+  url: capabilities/powerschool-capability-edges.yml
+  name: PowerSchool Business Capability Map
 - type: AgenticAccess
   url: agentic-access/powerschool-agentic-access.yml
 - type: TrustCenter

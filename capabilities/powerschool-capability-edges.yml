@@ -1,0 +1,36 @@
+slug: powerschool
+provider: PowerSchool
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Education
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Students
+  spec_file: powerschool-students-api-openapi.yml
+  capability_id: BC-4720.60
+  capability_id_l1: BC-4720
+  capability_name: Student Identifier & Lifecycle Records
+  confidence: 0.75
+  evidence: 'GET /ws/v1/district/student/{studentDcid}  getStudent  Get a specific student; schemas: Student,
+    Demographics, Addresses'
+  reason: Authoritative student records with demographics and contact data in a student information system
+    — student identifier and lifecycle records under Student Enrolment & Records Management.
+- tag: Courses
+  spec_file: powerschool-courses-api-openapi.yml
+  capability_id: BC-4700.40
+  capability_id_l1: BC-4700
+  capability_name: Programme Catalogue Management
+  confidence: 0.7
+  evidence: 'GET /ws/v1/school/{schoolDcid}/course  getCoursesForSchool  List courses for a school; schemas:
+    Course, CoursesResponse'
+  reason: Read access to the school's course catalogue in a K-12 SIS; closest fit is programme/course
+    catalogue management under Curriculum & Programme Management, though it is a read-only listing so
+    confidence is moderate.
