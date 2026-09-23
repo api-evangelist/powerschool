@@ -1,14 +1,7 @@
 {
   "provider": "powerschool",
   "sources": [
-    "powerschool-authentication-api-openapi.yml",
-    "powerschool-courses-api-openapi.yml",
-    "powerschool-district-api-openapi.yml",
-    "powerschool-metadata-api-openapi.yml",
-    "powerschool-powerquery-api-openapi.yml",
-    "powerschool-schools-api-openapi.yml",
-    "powerschool-sections-api-openapi.yml",
-    "powerschool-students-api-openapi.yml"
+    "_original/powerschool-powerschool-sis-api-openapi.yml"
   ],
   "outputs": [
     "powerschool-authentication-api-openapi.yml",
@@ -23,6 +16,19 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "powerschool-powerschool-sis-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "powerschool-authentication-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "powerschool-courses-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "powerschool-district-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "powerschool-metadata-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "powerschool-powerquery-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "powerschool-schools-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "powerschool-sections-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "powerschool-students-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

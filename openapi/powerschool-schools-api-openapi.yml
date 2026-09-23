@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: PowerSchool SIS REST Authentication Schools API
-  description: The PowerSchool SIS REST API provides programmatic access to student information system data including student demographics, enrollment records, grades, attendance, master scheduling, and district reporting. The API uses OAuth 2.0 client credentials for authentication and returns data in JSON format. Endpoints follow the /ws/v1/ path convention and support GET, POST, PUT, and DELETE HTTP methods for full CRUD operations on supported resources. Authentication tokens are obtained via /oauth/access_token/ using Basic auth with client credentials provisioned through the PowerSchool Plugin Management Dashboard.
+  title: PowerSchool SIS REST Schools API
+  description: The PowerSchool SIS REST API provides programmatic access to student information system data including student demographics, enrollment records, grades, attendance, master scheduling, and district reporting.
   version: 1.0.0
   contact:
     name: PowerSchool Developer Support
@@ -99,43 +99,69 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
-  parameters:
-    PageSize:
-      name: pagesize
-      in: query
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 1000
-        default: 100
-      description: Number of records to return per page.
-    Page:
-      name: page
-      in: query
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-      description: Page number for paginated results (1-indexed).
-    Query:
-      name: q
-      in: query
-      required: false
-      schema:
-        type: string
-      description: 'Filter expression using FIQL-like syntax. Example: id=ge=10000 to filter records with id >= 10000.'
-      example: id=ge=10000
-    Projection:
-      name: projection
-      in: query
-      required: false
-      schema:
-        type: string
-      description: Comma-separated list of fields to include in the response. Omit to return all fields.
-      example: id,name,school_number
   schemas:
+    Name:
+      type: object
+      description: A person's name parts
+      properties:
+        first_name:
+          type: string
+          description: Given name
+        middle_name:
+          type: string
+          description: Middle name
+        last_name:
+          type: string
+          description: Surname / family name
+    Error:
+      type: object
+      description: API error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error description
+        error:
+          type: string
+          description: Error code or type
+        status:
+          type: integer
+          description: HTTP status code
+    Address:
+      type: object
+      description: A mailing or physical address
+      properties:
+        city:
+          type: string
+          description: City name
+        postal_code:
+          type: integer
+          description: ZIP or postal code
+        state_province:
+          type: string
+          description: State or province abbreviation
+        street:
+          type: string
+          description: Street address line
+    Addresses:
+      type: object
+      description: Collection of address types for a person or school
+      properties:
+        home:
+          $ref: '#/components/schemas/Address'
+        mailing:
+          $ref: '#/components/schemas/Address'
+        physical:
+          $ref: '#/components/schemas/Address'
+    SchoolPrincipal:
+      type: object
+      description: Principal or assistant principal contact info
+      properties:
+        email:
+          type: string
+          format: email
+          description: Principal's email address
+        name:
+          $ref: '#/components/schemas/Name'
     School:
       type: object
       description: A school within a district
@@ -171,22 +197,22 @@ components:
           $ref: '#/components/schemas/SchoolPrincipal'
         assistant_principal:
           $ref: '#/components/schemas/SchoolPrincipal'
-    SchoolPrincipal:
-      type: object
-      description: Principal or assistant principal contact info
-      properties:
-        email:
-          type: string
-          format: email
-          description: Principal's email address
-        name:
-          $ref: '#/components/schemas/Name'
     PhoneNumber:
       type: object
       properties:
         number:
           type: string
           description: Phone number string
+    ResourceCount:
+      type: object
+      description: Count of a resource collection
+      properties:
+        resource:
+          type: object
+          properties:
+            count:
+              type: integer
+              description: Total number of records in the resource collection
     Phones:
       type: object
       description: Phone numbers for a person or school
@@ -197,6 +223,12 @@ components:
           $ref: '#/components/schemas/PhoneNumber'
         main:
           $ref: '#/components/schemas/PhoneNumber'
+    SchoolResponse:
+      type: object
+      description: Single school record response
+      properties:
+        school:
+          $ref: '#/components/schemas/School'
     SchoolsResponse:
       type: object
       description: Paginated list of school records
@@ -211,74 +243,42 @@ components:
                 items:
                   $ref: '#/components/schemas/School'
               description: Single school or array of schools
-    Address:
-      type: object
-      description: A mailing or physical address
-      properties:
-        city:
-          type: string
-          description: City name
-        postal_code:
-          type: integer
-          description: ZIP or postal code
-        state_province:
-          type: string
-          description: State or province abbreviation
-        street:
-          type: string
-          description: Street address line
-    Error:
-      type: object
-      description: API error response
-      properties:
-        message:
-          type: string
-          description: Human-readable error description
-        error:
-          type: string
-          description: Error code or type
-        status:
-          type: integer
-          description: HTTP status code
-    ResourceCount:
-      type: object
-      description: Count of a resource collection
-      properties:
-        resource:
-          type: object
-          properties:
-            count:
-              type: integer
-              description: Total number of records in the resource collection
-    Addresses:
-      type: object
-      description: Collection of address types for a person or school
-      properties:
-        home:
-          $ref: '#/components/schemas/Address'
-        mailing:
-          $ref: '#/components/schemas/Address'
-        physical:
-          $ref: '#/components/schemas/Address'
-    SchoolResponse:
-      type: object
-      description: Single school record response
-      properties:
-        school:
-          $ref: '#/components/schemas/School'
-    Name:
-      type: object
-      description: A person's name parts
-      properties:
-        first_name:
-          type: string
-          description: Given name
-        middle_name:
-          type: string
-          description: Middle name
-        last_name:
-          type: string
-          description: Surname / family name
+  parameters:
+    Page:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      description: Page number for paginated results (1-indexed).
+    Query:
+      name: q
+      in: query
+      required: false
+      schema:
+        type: string
+      description: 'Filter expression using FIQL-like syntax. Example: id=ge=10000 to filter records with id >= 10000.'
+      example: id=ge=10000
+    PageSize:
+      name: pagesize
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 1000
+        default: 100
+      description: Number of records to return per page.
+    Projection:
+      name: projection
+      in: query
+      required: false
+      schema:
+        type: string
+      description: Comma-separated list of fields to include in the response. Omit to return all fields.
+      example: id,name,school_number
   securitySchemes:
     BearerAuth:
       type: http

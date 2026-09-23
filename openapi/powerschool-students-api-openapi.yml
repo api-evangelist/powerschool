@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: PowerSchool SIS REST Authentication Students API
-  description: The PowerSchool SIS REST API provides programmatic access to student information system data including student demographics, enrollment records, grades, attendance, master scheduling, and district reporting. The API uses OAuth 2.0 client credentials for authentication and returns data in JSON format. Endpoints follow the /ws/v1/ path convention and support GET, POST, PUT, and DELETE HTTP methods for full CRUD operations on supported resources. Authentication tokens are obtained via /oauth/access_token/ using Basic auth with client credentials provisioned through the PowerSchool Plugin Management Dashboard.
+  title: PowerSchool SIS REST Students API
+  description: The PowerSchool SIS REST API provides programmatic access to student information system data including student demographics, enrollment records, grades, attendance, master scheduling, and district reporting.
   version: 1.0.0
   contact:
     name: PowerSchool Developer Support
@@ -101,6 +101,19 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    Name:
+      type: object
+      description: A person's name parts
+      properties:
+        first_name:
+          type: string
+          description: Given name
+        middle_name:
+          type: string
+          description: Middle name
+        last_name:
+          type: string
+          description: Surname / family name
     Student:
       type: object
       description: A student record with demographics and contact information
@@ -124,35 +137,19 @@ components:
           $ref: '#/components/schemas/Addresses'
         phones:
           $ref: '#/components/schemas/Phones'
-    PhoneNumber:
+    Error:
       type: object
+      description: API error response
       properties:
-        number:
+        message:
           type: string
-          description: Phone number string
-    Name:
-      type: object
-      description: A person's name parts
-      properties:
-        first_name:
+          description: Human-readable error description
+        error:
           type: string
-          description: Given name
-        middle_name:
-          type: string
-          description: Middle name
-        last_name:
-          type: string
-          description: Surname / family name
-    Phones:
-      type: object
-      description: Phone numbers for a person or school
-      properties:
-        fax:
-          $ref: '#/components/schemas/PhoneNumber'
-        home_phone:
-          $ref: '#/components/schemas/PhoneNumber'
-        main:
-          $ref: '#/components/schemas/PhoneNumber'
+          description: Error code or type
+        status:
+          type: integer
+          description: HTTP status code
     Address:
       type: object
       description: A mailing or physical address
@@ -169,6 +166,48 @@ components:
         street:
           type: string
           description: Street address line
+    Addresses:
+      type: object
+      description: Collection of address types for a person or school
+      properties:
+        home:
+          $ref: '#/components/schemas/Address'
+        mailing:
+          $ref: '#/components/schemas/Address'
+        physical:
+          $ref: '#/components/schemas/Address'
+    PhoneNumber:
+      type: object
+      properties:
+        number:
+          type: string
+          description: Phone number string
+    StudentResponse:
+      type: object
+      description: Single student record response
+      properties:
+        student:
+          $ref: '#/components/schemas/Student'
+    Phones:
+      type: object
+      description: Phone numbers for a person or school
+      properties:
+        fax:
+          $ref: '#/components/schemas/PhoneNumber'
+        home_phone:
+          $ref: '#/components/schemas/PhoneNumber'
+        main:
+          $ref: '#/components/schemas/PhoneNumber'
+    ResourceCount:
+      type: object
+      description: Count of a resource collection
+      properties:
+        resource:
+          type: object
+          properties:
+            count:
+              type: integer
+              description: Total number of records in the resource collection
     Demographics:
       type: object
       description: Demographic information for a student
@@ -187,35 +226,6 @@ components:
         projected_graduation_year:
           type: integer
           description: Projected graduation year
-    StudentResponse:
-      type: object
-      description: Single student record response
-      properties:
-        student:
-          $ref: '#/components/schemas/Student'
-    Error:
-      type: object
-      description: API error response
-      properties:
-        message:
-          type: string
-          description: Human-readable error description
-        error:
-          type: string
-          description: Error code or type
-        status:
-          type: integer
-          description: HTTP status code
-    Addresses:
-      type: object
-      description: Collection of address types for a person or school
-      properties:
-        home:
-          $ref: '#/components/schemas/Address'
-        mailing:
-          $ref: '#/components/schemas/Address'
-        physical:
-          $ref: '#/components/schemas/Address'
     StudentsResponse:
       type: object
       description: Paginated list of student records
@@ -230,17 +240,24 @@ components:
                 items:
                   $ref: '#/components/schemas/Student'
               description: Single student object or array of student objects depending on result count
-    ResourceCount:
-      type: object
-      description: Count of a resource collection
-      properties:
-        resource:
-          type: object
-          properties:
-            count:
-              type: integer
-              description: Total number of records in the resource collection
   parameters:
+    Page:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      description: Page number for paginated results (1-indexed).
+    Query:
+      name: q
+      in: query
+      required: false
+      schema:
+        type: string
+      description: 'Filter expression using FIQL-like syntax. Example: id=ge=10000 to filter records with id >= 10000.'
+      example: id=ge=10000
     PageSize:
       name: pagesize
       in: query
@@ -251,15 +268,6 @@ components:
         maximum: 1000
         default: 100
       description: Number of records to return per page.
-    Page:
-      name: page
-      in: query
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-      description: Page number for paginated results (1-indexed).
     Projection:
       name: projection
       in: query
@@ -268,14 +276,6 @@ components:
         type: string
       description: Comma-separated list of fields to include in the response. Omit to return all fields.
       example: id,name,school_number
-    Query:
-      name: q
-      in: query
-      required: false
-      schema:
-        type: string
-      description: 'Filter expression using FIQL-like syntax. Example: id=ge=10000 to filter records with id >= 10000.'
-      example: id=ge=10000
   securitySchemes:
     BearerAuth:
       type: http

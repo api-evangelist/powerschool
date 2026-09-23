@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: PowerSchool SIS REST Authentication Sections API
-  description: The PowerSchool SIS REST API provides programmatic access to student information system data including student demographics, enrollment records, grades, attendance, master scheduling, and district reporting. The API uses OAuth 2.0 client credentials for authentication and returns data in JSON format. Endpoints follow the /ws/v1/ path convention and support GET, POST, PUT, and DELETE HTTP methods for full CRUD operations on supported resources. Authentication tokens are obtained via /oauth/access_token/ using Basic auth with client credentials provisioned through the PowerSchool Plugin Management Dashboard.
+  title: PowerSchool SIS REST Sections API
+  description: The PowerSchool SIS REST API provides programmatic access to student information system data including student demographics, enrollment records, grades, attendance, master scheduling, and district reporting.
   version: 1.0.0
   contact:
     name: PowerSchool Developer Support
@@ -78,34 +78,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
-  parameters:
-    PageSize:
-      name: pagesize
-      in: query
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 1000
-        default: 100
-      description: Number of records to return per page.
-    Page:
-      name: page
-      in: query
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-      description: Page number for paginated results (1-indexed).
-    Query:
-      name: q
-      in: query
-      required: false
-      schema:
-        type: string
-      description: 'Filter expression using FIQL-like syntax. Example: id=ge=10000 to filter records with id >= 10000.'
-      example: id=ge=10000
   schemas:
     Section:
       type: object
@@ -138,19 +110,6 @@ components:
         term_id:
           type: integer
           description: DCID of the term this section is offered in
-    Error:
-      type: object
-      description: API error response
-      properties:
-        message:
-          type: string
-          description: Human-readable error description
-        error:
-          type: string
-          description: Error code or type
-        status:
-          type: integer
-          description: HTTP status code
     SectionsResponse:
       type: object
       description: Paginated list of section records
@@ -174,6 +133,47 @@ components:
             count:
               type: integer
               description: Total number of records in the resource collection
+    Error:
+      type: object
+      description: API error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error description
+        error:
+          type: string
+          description: Error code or type
+        status:
+          type: integer
+          description: HTTP status code
+  parameters:
+    Page:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      description: Page number for paginated results (1-indexed).
+    Query:
+      name: q
+      in: query
+      required: false
+      schema:
+        type: string
+      description: 'Filter expression using FIQL-like syntax. Example: id=ge=10000 to filter records with id >= 10000.'
+      example: id=ge=10000
+    PageSize:
+      name: pagesize
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 1000
+        default: 100
+      description: Number of records to return per page.
   securitySchemes:
     BearerAuth:
       type: http
