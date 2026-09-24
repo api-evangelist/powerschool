@@ -67,8 +67,6 @@ apis:
     url: https://support.powerschool.com/developer/
   - type: Authentication
     url: https://support.powerschool.com/developer/
-  - type: GraphQL
-    url: graphql/powerschool-graphql.md
 - aid: powerschool:powerschool-courses-api
   name: PowerSchool Courses API
   description: Course catalog information
@@ -83,8 +81,6 @@ apis:
     url: https://support.powerschool.com/developer/
   - type: Authentication
     url: https://support.powerschool.com/developer/
-  - type: GraphQL
-    url: graphql/powerschool-graphql.md
 - aid: powerschool:powerschool-district-api
   name: PowerSchool District API
   description: District-level resources
@@ -99,8 +95,6 @@ apis:
     url: https://support.powerschool.com/developer/
   - type: Authentication
     url: https://support.powerschool.com/developer/
-  - type: GraphQL
-    url: graphql/powerschool-graphql.md
 - aid: powerschool:powerschool-metadata-api
   name: PowerSchool Metadata API
   description: System metadata and configuration
@@ -115,8 +109,6 @@ apis:
     url: https://support.powerschool.com/developer/
   - type: Authentication
     url: https://support.powerschool.com/developer/
-  - type: GraphQL
-    url: graphql/powerschool-graphql.md
 - aid: powerschool:powerschool-powerquery-api
   name: PowerSchool PowerQuery API
   description: Named PowerQuery endpoints for complex data retrieval
@@ -131,8 +123,6 @@ apis:
     url: https://support.powerschool.com/developer/
   - type: Authentication
     url: https://support.powerschool.com/developer/
-  - type: GraphQL
-    url: graphql/powerschool-graphql.md
 - aid: powerschool:powerschool-schools-api
   name: PowerSchool Schools API
   description: School information and management
@@ -147,8 +137,6 @@ apis:
     url: https://support.powerschool.com/developer/
   - type: Authentication
     url: https://support.powerschool.com/developer/
-  - type: GraphQL
-    url: graphql/powerschool-graphql.md
 - aid: powerschool:powerschool-sections-api
   name: PowerSchool Sections API
   description: Course sections and scheduling
@@ -163,8 +151,6 @@ apis:
     url: https://support.powerschool.com/developer/
   - type: Authentication
     url: https://support.powerschool.com/developer/
-  - type: GraphQL
-    url: graphql/powerschool-graphql.md
 - aid: powerschool:powerschool-students-api
   name: PowerSchool Students API
   description: Student demographics, enrollment, and records
@@ -179,8 +165,6 @@ apis:
     url: https://support.powerschool.com/developer/
   - type: Authentication
     url: https://support.powerschool.com/developer/
-  - type: GraphQL
-    url: graphql/powerschool-graphql.md
 common:
 - type: CapabilityMap
   url: capabilities/powerschool-capability-edges.yml
