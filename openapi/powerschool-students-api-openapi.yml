@@ -101,6 +101,77 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    Demographics:
+      type: object
+      description: Demographic information for a student
+      properties:
+        birth_date:
+          type: string
+          format: date
+          description: Student's date of birth (YYYY-MM-DD)
+        district_entry_date:
+          type: string
+          format: date
+          description: Date the student entered the district
+        gender:
+          type: string
+          description: Gender identifier as defined by the school/district
+        projected_graduation_year:
+          type: integer
+          description: Projected graduation year
+    StudentResponse:
+      type: object
+      description: Single student record response
+      properties:
+        student:
+          $ref: '#/components/schemas/Student'
+    ResourceCount:
+      type: object
+      description: Count of a resource collection
+      properties:
+        resource:
+          type: object
+          properties:
+            count:
+              type: integer
+              description: Total number of records in the resource collection
+    Phones:
+      type: object
+      description: Phone numbers for a person or school
+      properties:
+        fax:
+          $ref: '#/components/schemas/PhoneNumber'
+        home_phone:
+          $ref: '#/components/schemas/PhoneNumber'
+        main:
+          $ref: '#/components/schemas/PhoneNumber'
+    StudentsResponse:
+      type: object
+      description: Paginated list of student records
+      properties:
+        students:
+          type: object
+          properties:
+            student:
+              oneOf:
+              - $ref: '#/components/schemas/Student'
+              - type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+              description: Single student object or array of student objects depending on result count
+    Error:
+      type: object
+      description: API error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error description
+        error:
+          type: string
+          description: Error code or type
+        status:
+          type: integer
+          description: HTTP status code
     Name:
       type: object
       description: A person's name parts
@@ -137,35 +208,6 @@ components:
           $ref: '#/components/schemas/Addresses'
         phones:
           $ref: '#/components/schemas/Phones'
-    Error:
-      type: object
-      description: API error response
-      properties:
-        message:
-          type: string
-          description: Human-readable error description
-        error:
-          type: string
-          description: Error code or type
-        status:
-          type: integer
-          description: HTTP status code
-    Address:
-      type: object
-      description: A mailing or physical address
-      properties:
-        city:
-          type: string
-          description: City name
-        postal_code:
-          type: integer
-          description: ZIP or postal code
-        state_province:
-          type: string
-          description: State or province abbreviation
-        street:
-          type: string
-          description: Street address line
     Addresses:
       type: object
       description: Collection of address types for a person or school
@@ -182,65 +224,31 @@ components:
         number:
           type: string
           description: Phone number string
-    StudentResponse:
+    Address:
       type: object
-      description: Single student record response
+      description: A mailing or physical address
       properties:
-        student:
-          $ref: '#/components/schemas/Student'
-    Phones:
-      type: object
-      description: Phone numbers for a person or school
-      properties:
-        fax:
-          $ref: '#/components/schemas/PhoneNumber'
-        home_phone:
-          $ref: '#/components/schemas/PhoneNumber'
-        main:
-          $ref: '#/components/schemas/PhoneNumber'
-    ResourceCount:
-      type: object
-      description: Count of a resource collection
-      properties:
-        resource:
-          type: object
-          properties:
-            count:
-              type: integer
-              description: Total number of records in the resource collection
-    Demographics:
-      type: object
-      description: Demographic information for a student
-      properties:
-        birth_date:
+        city:
           type: string
-          format: date
-          description: Student's date of birth (YYYY-MM-DD)
-        district_entry_date:
-          type: string
-          format: date
-          description: Date the student entered the district
-        gender:
-          type: string
-          description: Gender identifier as defined by the school/district
-        projected_graduation_year:
+          description: City name
+        postal_code:
           type: integer
-          description: Projected graduation year
-    StudentsResponse:
-      type: object
-      description: Paginated list of student records
-      properties:
-        students:
-          type: object
-          properties:
-            student:
-              oneOf:
-              - $ref: '#/components/schemas/Student'
-              - type: array
-                items:
-                  $ref: '#/components/schemas/Student'
-              description: Single student object or array of student objects depending on result count
+          description: ZIP or postal code
+        state_province:
+          type: string
+          description: State or province abbreviation
+        street:
+          type: string
+          description: Street address line
   parameters:
+    Query:
+      name: q
+      in: query
+      required: false
+      schema:
+        type: string
+      description: 'Filter expression using FIQL-like syntax. Example: id=ge=10000 to filter records with id >= 10000.'
+      example: id=ge=10000
     Page:
       name: page
       in: query
@@ -250,14 +258,6 @@ components:
         minimum: 1
         default: 1
       description: Page number for paginated results (1-indexed).
-    Query:
-      name: q
-      in: query
-      required: false
-      schema:
-        type: string
-      description: 'Filter expression using FIQL-like syntax. Example: id=ge=10000 to filter records with id >= 10000.'
-      example: id=ge=10000
     PageSize:
       name: pagesize
       in: query
