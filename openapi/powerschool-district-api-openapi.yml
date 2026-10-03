@@ -177,34 +177,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    Demographics:
-      type: object
-      description: Demographic information for a student
-      properties:
-        birth_date:
-          type: string
-          format: date
-          description: Student's date of birth (YYYY-MM-DD)
-        district_entry_date:
-          type: string
-          format: date
-          description: Date the student entered the district
-        gender:
-          type: string
-          description: Gender identifier as defined by the school/district
-        projected_graduation_year:
-          type: integer
-          description: Projected graduation year
-    SchoolPrincipal:
-      type: object
-      description: Principal or assistant principal contact info
-      properties:
-        email:
-          type: string
-          format: email
-          description: Principal's email address
-        name:
-          $ref: '#/components/schemas/Name'
     ResourceCount:
       type: object
       description: Count of a resource collection
@@ -215,119 +187,16 @@ components:
             count:
               type: integer
               description: Total number of records in the resource collection
-    SchoolsResponse:
+    SchoolPrincipal:
       type: object
-      description: Paginated list of school records
+      description: Principal or assistant principal contact info
       properties:
-        schools:
-          type: object
-          properties:
-            school:
-              oneOf:
-              - $ref: '#/components/schemas/School'
-              - type: array
-                items:
-                  $ref: '#/components/schemas/School'
-              description: Single school or array of schools
-    Phones:
-      type: object
-      description: Phone numbers for a person or school
-      properties:
-        fax:
-          $ref: '#/components/schemas/PhoneNumber'
-        home_phone:
-          $ref: '#/components/schemas/PhoneNumber'
-        main:
-          $ref: '#/components/schemas/PhoneNumber'
-    StudentsResponse:
-      type: object
-      description: Paginated list of student records
-      properties:
-        students:
-          type: object
-          properties:
-            student:
-              oneOf:
-              - $ref: '#/components/schemas/Student'
-              - type: array
-                items:
-                  $ref: '#/components/schemas/Student'
-              description: Single student object or array of student objects depending on result count
-    SchemaTableResponse:
-      type: object
-      description: Records from a schema table query
-      properties:
-        record:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-          description: Array of records from the table; field names match column names in the schema table
-    Error:
-      type: object
-      description: API error response
-      properties:
-        message:
+        email:
           type: string
-          description: Human-readable error description
-        error:
-          type: string
-          description: Error code or type
-        status:
-          type: integer
-          description: HTTP status code
-    Name:
-      type: object
-      description: A person's name parts
-      properties:
-        first_name:
-          type: string
-          description: Given name
-        middle_name:
-          type: string
-          description: Middle name
-        last_name:
-          type: string
-          description: Surname / family name
-    Student:
-      type: object
-      description: A student record with demographics and contact information
-      required:
-      - id
-      properties:
-        id:
-          type: integer
-          description: Student DCID (district-level unique identifier)
-        local_id:
-          type: integer
-          description: Student number (local identifier within district)
-        student_username:
-          type: string
-          description: Student's portal username
+          format: email
+          description: Principal's email address
         name:
           $ref: '#/components/schemas/Name'
-        demographics:
-          $ref: '#/components/schemas/Demographics'
-        addresses:
-          $ref: '#/components/schemas/Addresses'
-        phones:
-          $ref: '#/components/schemas/Phones'
-    Addresses:
-      type: object
-      description: Collection of address types for a person or school
-      properties:
-        home:
-          $ref: '#/components/schemas/Address'
-        mailing:
-          $ref: '#/components/schemas/Address'
-        physical:
-          $ref: '#/components/schemas/Address'
-    PhoneNumber:
-      type: object
-      properties:
-        number:
-          type: string
-          description: Phone number string
     School:
       type: object
       description: A school within a district
@@ -363,6 +232,101 @@ components:
           $ref: '#/components/schemas/SchoolPrincipal'
         assistant_principal:
           $ref: '#/components/schemas/SchoolPrincipal'
+    Addresses:
+      type: object
+      description: Collection of address types for a person or school
+      properties:
+        home:
+          $ref: '#/components/schemas/Address'
+        mailing:
+          $ref: '#/components/schemas/Address'
+        physical:
+          $ref: '#/components/schemas/Address'
+    Error:
+      type: object
+      description: API error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error description
+        error:
+          type: string
+          description: Error code or type
+        status:
+          type: integer
+          description: HTTP status code
+    StudentsResponse:
+      type: object
+      description: Paginated list of student records
+      properties:
+        students:
+          type: object
+          properties:
+            student:
+              oneOf:
+              - $ref: '#/components/schemas/Student'
+              - type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+              description: Single student object or array of student objects depending on result count
+    PhoneNumber:
+      type: object
+      properties:
+        number:
+          type: string
+          description: Phone number string
+    Demographics:
+      type: object
+      description: Demographic information for a student
+      properties:
+        birth_date:
+          type: string
+          format: date
+          description: Student's date of birth (YYYY-MM-DD)
+        district_entry_date:
+          type: string
+          format: date
+          description: Date the student entered the district
+        gender:
+          type: string
+          description: Gender identifier as defined by the school/district
+        projected_graduation_year:
+          type: integer
+          description: Projected graduation year
+    SchoolsResponse:
+      type: object
+      description: Paginated list of school records
+      properties:
+        schools:
+          type: object
+          properties:
+            school:
+              oneOf:
+              - $ref: '#/components/schemas/School'
+              - type: array
+                items:
+                  $ref: '#/components/schemas/School'
+              description: Single school or array of schools
+    Phones:
+      type: object
+      description: Phone numbers for a person or school
+      properties:
+        fax:
+          $ref: '#/components/schemas/PhoneNumber'
+        home_phone:
+          $ref: '#/components/schemas/PhoneNumber'
+        main:
+          $ref: '#/components/schemas/PhoneNumber'
+    SchemaTableResponse:
+      type: object
+      description: Records from a schema table query
+      properties:
+        record:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+          description: Array of records from the table; field names match column names in the schema table
     Address:
       type: object
       description: A mailing or physical address
@@ -379,6 +343,42 @@ components:
         street:
           type: string
           description: Street address line
+    Student:
+      type: object
+      description: A student record with demographics and contact information
+      required:
+      - id
+      properties:
+        id:
+          type: integer
+          description: Student DCID (district-level unique identifier)
+        local_id:
+          type: integer
+          description: Student number (local identifier within district)
+        student_username:
+          type: string
+          description: Student's portal username
+        name:
+          $ref: '#/components/schemas/Name'
+        demographics:
+          $ref: '#/components/schemas/Demographics'
+        addresses:
+          $ref: '#/components/schemas/Addresses'
+        phones:
+          $ref: '#/components/schemas/Phones'
+    Name:
+      type: object
+      description: A person's name parts
+      properties:
+        first_name:
+          type: string
+          description: Given name
+        middle_name:
+          type: string
+          description: Middle name
+        last_name:
+          type: string
+          description: Surname / family name
   parameters:
     Query:
       name: q

@@ -75,30 +75,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
-  schemas:
-    PowerQueryResponse:
-      type: object
-      description: Results from a named PowerQuery execution
-      properties:
-        record:
-          type: array
-          description: Array of result records; structure varies by query
-          items:
-            type: object
-            additionalProperties: true
-    Error:
-      type: object
-      description: API error response
-      properties:
-        message:
-          type: string
-          description: Human-readable error description
-        error:
-          type: string
-          description: Error code or type
-        status:
-          type: integer
-          description: HTTP status code
   parameters:
     Page:
       name: page
@@ -119,6 +95,30 @@ components:
         maximum: 1000
         default: 100
       description: Number of records to return per page.
+  schemas:
+    Error:
+      type: object
+      description: API error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error description
+        error:
+          type: string
+          description: Error code or type
+        status:
+          type: integer
+          description: HTTP status code
+    PowerQueryResponse:
+      type: object
+      description: Results from a named PowerQuery execution
+      properties:
+        record:
+          type: array
+          description: Array of result records; structure varies by query
+          items:
+            type: object
+            additionalProperties: true
   securitySchemes:
     BearerAuth:
       type: http

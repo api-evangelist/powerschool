@@ -42,6 +42,19 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    Error:
+      type: object
+      description: API error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error description
+        error:
+          type: string
+          description: Error code or type
+        status:
+          type: integer
+          description: HTTP status code
     Metadata:
       type: object
       description: System-level metadata and configuration limits
@@ -94,19 +107,6 @@ components:
         term_max_page_size:
           type: integer
           description: Maximum page size for term queries
-    Error:
-      type: object
-      description: API error response
-      properties:
-        message:
-          type: string
-          description: Human-readable error description
-        error:
-          type: string
-          description: Error code or type
-        status:
-          type: integer
-          description: HTTP status code
   securitySchemes:
     BearerAuth:
       type: http

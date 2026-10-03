@@ -101,6 +101,53 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    ResourceCount:
+      type: object
+      description: Count of a resource collection
+      properties:
+        resource:
+          type: object
+          properties:
+            count:
+              type: integer
+              description: Total number of records in the resource collection
+    Addresses:
+      type: object
+      description: Collection of address types for a person or school
+      properties:
+        home:
+          $ref: '#/components/schemas/Address'
+        mailing:
+          $ref: '#/components/schemas/Address'
+        physical:
+          $ref: '#/components/schemas/Address'
+    Error:
+      type: object
+      description: API error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error description
+        error:
+          type: string
+          description: Error code or type
+        status:
+          type: integer
+          description: HTTP status code
+    StudentsResponse:
+      type: object
+      description: Paginated list of student records
+      properties:
+        students:
+          type: object
+          properties:
+            student:
+              oneOf:
+              - $ref: '#/components/schemas/Student'
+              - type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+              description: Single student object or array of student objects depending on result count
     Demographics:
       type: object
       description: Demographic information for a student
@@ -125,16 +172,12 @@ components:
       properties:
         student:
           $ref: '#/components/schemas/Student'
-    ResourceCount:
+    PhoneNumber:
       type: object
-      description: Count of a resource collection
       properties:
-        resource:
-          type: object
-          properties:
-            count:
-              type: integer
-              description: Total number of records in the resource collection
+        number:
+          type: string
+          description: Phone number string
     Phones:
       type: object
       description: Phone numbers for a person or school
@@ -145,46 +188,22 @@ components:
           $ref: '#/components/schemas/PhoneNumber'
         main:
           $ref: '#/components/schemas/PhoneNumber'
-    StudentsResponse:
+    Address:
       type: object
-      description: Paginated list of student records
+      description: A mailing or physical address
       properties:
-        students:
-          type: object
-          properties:
-            student:
-              oneOf:
-              - $ref: '#/components/schemas/Student'
-              - type: array
-                items:
-                  $ref: '#/components/schemas/Student'
-              description: Single student object or array of student objects depending on result count
-    Error:
-      type: object
-      description: API error response
-      properties:
-        message:
+        city:
           type: string
-          description: Human-readable error description
-        error:
-          type: string
-          description: Error code or type
-        status:
+          description: City name
+        postal_code:
           type: integer
-          description: HTTP status code
-    Name:
-      type: object
-      description: A person's name parts
-      properties:
-        first_name:
+          description: ZIP or postal code
+        state_province:
           type: string
-          description: Given name
-        middle_name:
+          description: State or province abbreviation
+        street:
           type: string
-          description: Middle name
-        last_name:
-          type: string
-          description: Surname / family name
+          description: Street address line
     Student:
       type: object
       description: A student record with demographics and contact information
@@ -208,38 +227,19 @@ components:
           $ref: '#/components/schemas/Addresses'
         phones:
           $ref: '#/components/schemas/Phones'
-    Addresses:
+    Name:
       type: object
-      description: Collection of address types for a person or school
+      description: A person's name parts
       properties:
-        home:
-          $ref: '#/components/schemas/Address'
-        mailing:
-          $ref: '#/components/schemas/Address'
-        physical:
-          $ref: '#/components/schemas/Address'
-    PhoneNumber:
-      type: object
-      properties:
-        number:
+        first_name:
           type: string
-          description: Phone number string
-    Address:
-      type: object
-      description: A mailing or physical address
-      properties:
-        city:
+          description: Given name
+        middle_name:
           type: string
-          description: City name
-        postal_code:
-          type: integer
-          description: ZIP or postal code
-        state_province:
+          description: Middle name
+        last_name:
           type: string
-          description: State or province abbreviation
-        street:
-          type: string
-          description: Street address line
+          description: Surname / family name
   parameters:
     Query:
       name: q
