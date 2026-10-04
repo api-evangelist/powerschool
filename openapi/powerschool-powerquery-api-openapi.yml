@@ -75,26 +75,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
-  parameters:
-    Page:
-      name: page
-      in: query
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-      description: Page number for paginated results (1-indexed).
-    PageSize:
-      name: pagesize
-      in: query
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 1000
-        default: 100
-      description: Number of records to return per page.
   schemas:
     Error:
       type: object
@@ -119,6 +99,26 @@ components:
           items:
             type: object
             additionalProperties: true
+  parameters:
+    PageSize:
+      name: pagesize
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 1000
+        default: 100
+      description: Number of records to return per page.
+    Page:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      description: Page number for paginated results (1-indexed).
   securitySchemes:
     BearerAuth:
       type: http

@@ -79,42 +79,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    ResourceCount:
-      type: object
-      description: Count of a resource collection
-      properties:
-        resource:
-          type: object
-          properties:
-            count:
-              type: integer
-              description: Total number of records in the resource collection
-    Error:
-      type: object
-      description: API error response
-      properties:
-        message:
-          type: string
-          description: Human-readable error description
-        error:
-          type: string
-          description: Error code or type
-        status:
-          type: integer
-          description: HTTP status code
-    CoursesResponse:
-      type: object
-      description: Paginated list of course records
-      properties:
-        courses:
-          type: object
-          properties:
-            course:
-              oneOf:
-              - $ref: '#/components/schemas/Course'
-              - type: array
-                items:
-                  $ref: '#/components/schemas/Course'
     Course:
       type: object
       description: A course in the district course catalog
@@ -128,15 +92,43 @@ components:
         course_name:
           type: string
           description: Full name of the course
+    ResourceCount:
+      type: object
+      description: Count of a resource collection
+      properties:
+        resource:
+          type: object
+          properties:
+            count:
+              type: integer
+              description: Total number of records in the resource collection
+    CoursesResponse:
+      type: object
+      description: Paginated list of course records
+      properties:
+        courses:
+          type: object
+          properties:
+            course:
+              oneOf:
+              - $ref: '#/components/schemas/Course'
+              - type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+    Error:
+      type: object
+      description: API error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error description
+        error:
+          type: string
+          description: Error code or type
+        status:
+          type: integer
+          description: HTTP status code
   parameters:
-    Query:
-      name: q
-      in: query
-      required: false
-      schema:
-        type: string
-      description: 'Filter expression using FIQL-like syntax. Example: id=ge=10000 to filter records with id >= 10000.'
-      example: id=ge=10000
     PageSize:
       name: pagesize
       in: query
@@ -147,6 +139,14 @@ components:
         maximum: 1000
         default: 100
       description: Number of records to return per page.
+    Query:
+      name: q
+      in: query
+      required: false
+      schema:
+        type: string
+      description: 'Filter expression using FIQL-like syntax. Example: id=ge=10000 to filter records with id >= 10000.'
+      example: id=ge=10000
     Page:
       name: page
       in: query

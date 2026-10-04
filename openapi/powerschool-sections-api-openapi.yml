@@ -89,32 +89,6 @@ components:
             count:
               type: integer
               description: Total number of records in the resource collection
-    SectionsResponse:
-      type: object
-      description: Paginated list of section records
-      properties:
-        sections:
-          type: object
-          properties:
-            section:
-              oneOf:
-              - $ref: '#/components/schemas/Section'
-              - type: array
-                items:
-                  $ref: '#/components/schemas/Section'
-    Error:
-      type: object
-      description: API error response
-      properties:
-        message:
-          type: string
-          description: Human-readable error description
-        error:
-          type: string
-          description: Error code or type
-        status:
-          type: integer
-          description: HTTP status code
     Section:
       type: object
       description: A course section (a specific offering of a course in a given period and room)
@@ -146,7 +120,43 @@ components:
         term_id:
           type: integer
           description: DCID of the term this section is offered in
+    Error:
+      type: object
+      description: API error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error description
+        error:
+          type: string
+          description: Error code or type
+        status:
+          type: integer
+          description: HTTP status code
+    SectionsResponse:
+      type: object
+      description: Paginated list of section records
+      properties:
+        sections:
+          type: object
+          properties:
+            section:
+              oneOf:
+              - $ref: '#/components/schemas/Section'
+              - type: array
+                items:
+                  $ref: '#/components/schemas/Section'
   parameters:
+    PageSize:
+      name: pagesize
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 1000
+        default: 100
+      description: Number of records to return per page.
     Query:
       name: q
       in: query
@@ -164,16 +174,6 @@ components:
         minimum: 1
         default: 1
       description: Page number for paginated results (1-indexed).
-    PageSize:
-      name: pagesize
-      in: query
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 1000
-        default: 100
-      description: Number of records to return per page.
   securitySchemes:
     BearerAuth:
       type: http
