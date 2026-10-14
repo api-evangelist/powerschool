@@ -1,6 +1,7 @@
 generated: '2026-10-13'
 method: searched
 checked:
+- clever/integrations/clever-integration-edges.yml
 - https://aws.amazon.com/marketplace/
 - https://azuremarketplace.microsoft.com/
 - https://site.imsglobal.org/certifications
@@ -643,3 +644,24 @@ edges:
       url: https://site.imsglobal.org/certifications/powerschool-group-llc/schoolmessenger-communicate/v1
     detected_by: sweep-edtech.py
     detected: '2026-10-14'
+- partner_name: Clever (clever-app-gallery)
+  partner: clever
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: clever-app-gallery
+  evidence: https://clever.com/app-gallery
+  mirror_of: clever/integrations/clever-integration-edges.yml
+  apps: []
+  listing_count: 3
+  detected: '2026-10-14'
+  detected_by: mirror-platform-listings.py
+  category: classroom_management
+  features:
+  - secure_sync
+  - instant_login
+source:
+- clever/integrations/clever-integration-edges.yml
