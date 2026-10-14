@@ -27,3 +27,611 @@
   relationship: distribution-channel
   status: not-a-workflow
   arazzo: null
+- slug: powerschool-1edtech
+  label: 1EdTech
+  partner_name: 1EdTech
+  category: 1EdTech certified products
+  type: contract
+  channel: standard-directory
+  evidence: https://site.imsglobal.org/certifications
+  source: edge
+  relationship: standard-participant
+  contract_reference:
+    register: 1EdTech certified product directory (TrustEd Apps)
+    spec_file: null
+    standard: 1EdTech
+    role: Contributing Member
+    registered_name: PowerSchool Group LLC
+    matched_domain: powerschool.com
+    matched_by: domain
+    standards:
+    - Competencies and Academic Standards Exchange (CASE) Service v1.0
+    - Data Privacy
+    - LTI Advantage
+    - LTI Advantage Complete
+    - Learning Tools Interoperability (LTI) v1.3
+    - OneRoster 1.1
+    - OneRoster 1.2
+    - Thin Common Cartridge 1.3
+    certified_products:
+    - product: Analytics & Insights
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - AI Self-Assessed
+      - Certified Product
+      - Security Self-assessed
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/analytics-insights/v1
+    - product: MyPowerHub
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/mypowerhub/v1
+    - product: Performance Matters
+      version: v01-18-2023
+      standards:
+      - OneRoster 1.2
+      implementation:
+      - 'Rostering: REST Data Consumer Rostering Core'
+      attributes:
+      - Certified Product
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/node/420292
+    - product: PowerBuddy for Assessment
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - AI Self-Assessed
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerbuddy-for-assessment/v1
+    - product: PowerBuddy for College and Career
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerbuddy-for-college-and-career/v1
+    - product: PowerBuddy for Community
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerbuddy-for-community/v1-0
+    - product: PowerBuddy for Data Analysis
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - AI Self-Assessed
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerbuddy-for-data-analysis/v1
+    - product: PowerBuddy for Engagement
+      version: v2024
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - AI Self-Assessed
+      - Certified Product
+      - TrustEd Apps Seal
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerbuddy-for-engagement/v2024
+    - product: PowerBuddy for Learning
+      version: v2024
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - AI Self-Assessed
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerbuddy-for-learning/v2024
+    - product: PowerBuddy for Special Programs
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerbuddy-for-special-programs/v1
+    - product: PowerSchool Applicant Tracking
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-applicant-tracking/v1
+    - product: PowerSchool Atrieve
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-atrieve/v1
+    - product: PowerSchool Attendance Support
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - Security Self-assessed
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-attendance-intervention/v1
+    - product: PowerSchool Behavior Support
+      version: v1.0
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - AI Self-Assessed
+      - Certified Product
+      - Security Self-assessed
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-behavior-support/v10
+    - product: PowerSchool BusinessPlus
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-businessplus/v1
+    - product: PowerSchool Candidate Assessment
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - Security Self-assessed
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-candidate-assessment/v1
+    - product: PowerSchool Coaching and Mentoring
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - AI Self-Assessed
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-coaching-and-mentoring/v1
+    - product: PowerSchool Communication
+      version: v1.0
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-communication/v10
+    - product: PowerSchool Connected Intelligence
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - Security Self-assessed
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-connected-intelligence/v1
+    - product: PowerSchool Connected Intelligence P20W
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-connected-intelligence-p20w/v1
+    - product: PowerSchool ContentNav
+      version: v2026
+      standards:
+      - LTI Advantage
+      - LTI Advantage Complete
+      - Learning Tools Interoperability (LTI) v1.3
+      - Thin Common Cartridge 1.3
+      implementation:
+      - 'Export: No'
+      - 'Extension: LTI Assignment & Grade Services 2.0'
+      - 'Extension: LTI Deep Linking 2.0'
+      - 'Extension: LTI Names and Role Provisioning Services 2.0'
+      - 'Supports: Basic LTI'
+      - 'Supports: Curriculum Standards'
+      - 'Supports: Roles Metadata'
+      - 'Type: Read'
+      - 'Type: Tool'
+      attributes:
+      - AI Self-Assessed
+      - Certified Product
+      - Security Self-assessed
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-contentnav/v2026
+    - product: PowerSchool Curriculum & Instruction
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - AI Self-Assessed
+      - Certified Product
+      - Security Self-assessed
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-curriculum-instruction/v1
+    - product: PowerSchool Ecollect Forms
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - Security Self-assessed
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-ecollect-forms/v1
+    - product: PowerSchool eFinancePlus
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-efinanceplus/v1
+    - product: PowerSchool Employee Records
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - Security Self-assessed
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-employee-records/v1
+    - product: PowerSchool Enrollment
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - Security Self-assessed
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-enrollment/v1
+    - product: PowerSchool Enrollment Express
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - Security Self-assessed
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-enrollment-express/v1
+    - product: PowerSchool eSchoolPlus SIS
+      version: v1
+      standards:
+      - OneRoster 1.1
+      - OneRoster 1.2
+      implementation:
+      - 'Gradebook: REST Data Provider Gradebook Pull Core'
+      - 'Gradebook: REST Data Provider Gradebook Push Core'
+      - 'Rostering: REST Data Provider Rostering Core'
+      - 'Rostering: REST Data Provider Rostering Optional'
+      attributes:
+      - Certified Product
+      - Security Self-assessed
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-eschoolplus-sis/v1-0
+    - product: PowerSchool Learning Standards Management
+      version: v1
+      standards:
+      - Competencies and Academic Standards Exchange (CASE) Service v1.0
+      implementation:
+      - Type:Data/Service Consumer
+      attributes:
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-learning-standards-management/v1
+    - product: PowerSchool MTSS
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - AI Self-Assessed
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-mtss/v1
+    - product: PowerSchool Naviance CCLR
+      version: v1.0
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - AI Self-Assessed
+      - Certified Product
+      - Security Self-assessed
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-naviance-cclr/v10
+    - product: PowerSchool Perform
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - Security Self-assessed
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-perform/v1
+    - product: PowerSchool Performance Matters
+      version: v26.3
+      standards:
+      - OneRoster 1.2
+      implementation:
+      - 'Rostering: REST Data Consumer Rostering Core'
+      attributes:
+      - Certified Product
+      - Security Self-assessed
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-performance-matters/v263
+    - product: PowerSchool Professional Learning
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-professional-learning/v1
+    - product: PowerSchool Risk Analysis
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - AI Self-Assessed
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-risk-analysis/v1
+    - product: PowerSchool Schoology Learning
+      version: v1
+      standards:
+      - LTI Advantage
+      - LTI Advantage Complete
+      - Learning Tools Interoperability (LTI) v1.3
+      - OneRoster 1.1
+      - OneRoster 1.2
+      implementation:
+      - 'Extension: LTI Assignment & Grade Services 2.0'
+      - 'Extension: LTI Deep Linking 2.0'
+      - 'Extension: LTI Names and Role Provisioning Services 2.0'
+      - 'Gradebook: REST Data Consumer Gradebook Pull Core'
+      - 'Gradebook: REST Data Consumer Gradebook Push Core'
+      - 'Resources: REST Data Consumer Resources'
+      - 'Resources: REST Data Consumer Resources Core'
+      - 'Resources: REST Data Consumer Resources Optional'
+      - 'Rostering: REST Data Consumer Rostering Core'
+      - 'Type: Tool'
+      attributes:
+      - Certified Product
+      - Security Self-assessed
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-schoology-learning/v1
+    - product: PowerSchool Schoology Learning
+      version: v2024
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - Security Self-assessed
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/node/473850
+    - product: PowerSchool SchoolSpring Job Board
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-schoolspring-job-board/v1
+    - product: PowerSchool SIS
+      version: v26.3.0.0
+      standards:
+      - OneRoster 1.1
+      - OneRoster 1.2
+      implementation:
+      - Assessment Result Profile Provider Pull Core
+      - Assessment Result Profile Provider Pull Optional
+      - 'Gradebook: REST Data Provider Gradebook Pull Core'
+      - 'Gradebook: REST Data Provider Gradebook Pull Optional'
+      - 'Gradebook: REST Data Provider Gradebook Push Core'
+      - 'Gradebook: REST Data Provider Gradebook Push Optional'
+      - 'Rostering: REST Data Provider Rostering Core'
+      - 'Rostering: REST Data Provider Rostering Optional'
+      attributes:
+      - Certified Product
+      - Security Self-assessed
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-sis/v26300
+    - product: PowerSchool SIS
+      version: v26.5.1.0
+      standards:
+      - OneRoster 1.1
+      - OneRoster 1.2
+      implementation:
+      - Assessment Result Profile Provider Pull Core
+      - Assessment Result Profile Provider Pull Optional
+      - 'Gradebook: REST Data Provider Gradebook Pull Core'
+      - 'Gradebook: REST Data Provider Gradebook Pull Optional'
+      - 'Gradebook: REST Data Provider Gradebook Push Core'
+      - 'Gradebook: REST Data Provider Gradebook Push Optional'
+      - 'Rostering: REST Data Provider Rostering Core'
+      - 'Rostering: REST Data Provider Rostering Optional'
+      attributes:
+      - Certified Product
+      - Security Self-assessed
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-sis/v26510
+    - product: PowerSchool SmartFind Express
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-smartfind-express/v1
+    - product: PowerSchool Special Programs
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-special-programs/v1
+    - product: PowerSchool Student Analytics
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-student-analytics/v1
+    - product: PowerSchool Student Readiness Analytics
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - AI Self-Assessed
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/powerschool-student-readiness-analytics/v1
+    - product: SchoolMessenger Communicate
+      version: v1
+      standards:
+      - Data Privacy
+      implementation: null
+      attributes:
+      - Certified Product
+      - TrustEd Apps Seal
+      - Vetted
+      lapsed: false
+      url: https://site.imsglobal.org/certifications/powerschool-group-llc/schoolmessenger-communicate/v1
+    detected_by: sweep-edtech.py
+    detected: '2026-10-14'
+  status: not-a-workflow
+  arazzo: null
