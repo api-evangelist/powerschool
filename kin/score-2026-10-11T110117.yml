@@ -1,24 +1,22 @@
-# Kin Score artifact — powerschool — 2026-09-06T224210
+# Kin Score artifact — powerschool — 2026-10-11T110117
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: powerschool
-  schema_version: 0.19.0
-  scored_at: '2026-09-06'
-  run_ts: 2026-09-06T224210
-  composite: 44.4
-  band: developing
+  schema_version: 0.23.0
+  scored_at: '2026-10-11'
+  run_ts: 2026-10-11T110117
+  composite: 39.2
+  band: thin
   facets:
-    discoverability: 68.5
-    contract_quality: 64.3
-    governance: 25.0
+    discoverability: 66.1
+    contract_quality: 56.7
+    contract_governance: 23.5
     operational_transparency: 21.1
     developer_ergonomics: 21.4
-    commercial_clarity: 47.4
-    contract_governance: 25.0
-    access_clarity: 47.4
+    access_clarity: 44.2
   agent_readiness:
-    score: 28.1
+    score: 26.2
     band: agent-aware
     dimensions:
       spec_presence: true
@@ -29,7 +27,7 @@ kin_score:
       idempotency: false
       error_semantics: verified
       openapi_examples: partial
-      rate_limit_signal: documented
+      rate_limit_signal: derived
       event_surface_described: false
       agent_skills: false
       well_known_catalog: false
@@ -44,7 +42,7 @@ kin_score:
     applies: true
     regime: Education & Research
     regime_id: education
-    score: 40.7
+    score: 21.6
     matched_via: tags
   provenance:
     agentic_access: derived
