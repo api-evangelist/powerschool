@@ -79,6 +79,19 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    Error:
+      type: object
+      description: API error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error description
+        error:
+          type: string
+          description: Error code or type
+        status:
+          type: integer
+          description: HTTP status code
     ResourceCount:
       type: object
       description: Count of a resource collection
@@ -120,19 +133,6 @@ components:
         term_id:
           type: integer
           description: DCID of the term this section is offered in
-    Error:
-      type: object
-      description: API error response
-      properties:
-        message:
-          type: string
-          description: Human-readable error description
-        error:
-          type: string
-          description: Error code or type
-        status:
-          type: integer
-          description: HTTP status code
     SectionsResponse:
       type: object
       description: Paginated list of section records
@@ -147,6 +147,15 @@ components:
                 items:
                   $ref: '#/components/schemas/Section'
   parameters:
+    Page:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      description: Page number for paginated results (1-indexed).
     PageSize:
       name: pagesize
       in: query
@@ -165,15 +174,6 @@ components:
         type: string
       description: 'Filter expression using FIQL-like syntax. Example: id=ge=10000 to filter records with id >= 10000.'
       example: id=ge=10000
-    Page:
-      name: page
-      in: query
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-      description: Page number for paginated results (1-indexed).
   securitySchemes:
     BearerAuth:
       type: http
