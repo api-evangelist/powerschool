@@ -648,3 +648,42 @@
   relationship: platform-app
   status: not-a-workflow
   arazzo: null
+- slug: powerschool-fivetran
+  label: Fivetran
+  partner: fivetran
+  partner_name: Fivetran
+  type: marketplace
+  marketplace: fivetran-connectors
+  channel: elt-connector
+  evidence: https://fivetran.com/docs/connectors/applications/powerschool
+  source: edge
+  relationship: ipaas-bridge
+  contract_reference:
+    register: Fivetran connectors (fivetran.com/docs/connectors, docs-sitemap.xml + Partner-Built program)
+    spec_file: null
+    role: elt-connector:fivetran
+    registered_name: PowerSchool
+    matched_domain: powerschool.com
+    matched_by: domain
+    detected_by: sweep-data-integration.py
+    detected: '2026-10-18'
+    signal_note: one edge per (provider, platform); connectors, streams, packages and usage are context, never read
+    connector_paths:
+    - connectors/applications/powerschool
+    vendor_link: https://www.powerschool.com/
+    builder: Fivetran
+  status: pending-generation
+  arazzo: null
+- slug: powerschool-google-workspace-own
+  label: Google Workspace (own)
+  partner: google-workspace
+  partner_name: Google Workspace (own)
+  category: Google Workspace app
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://workspace.google.com/marketplace/app/powerschool_unified_classroom/190562129324
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
