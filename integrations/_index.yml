@@ -672,7 +672,7 @@
     - connectors/applications/powerschool
     vendor_link: https://www.powerschool.com/
     builder: Fivetran
-  status: pending-generation
+  status: not-a-workflow
   arazzo: null
 - slug: powerschool-google-workspace-own
   label: Google Workspace (own)
