@@ -42,6 +42,68 @@ edges:
   seller_name: PowerSchool Group, LLC
   detected_by: sweep-cloud-marketplaces.py
   detected: '2026-10-13'
+- partner_name: Clever (clever-app-gallery)
+  partner: clever
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: clever-app-gallery
+  evidence: https://clever.com/app-gallery
+  mirror_of: clever/integrations/clever-integration-edges.yml
+  apps: []
+  listing_count: 3
+  detected: '2026-10-14'
+  detected_by: mirror-platform-listings.py
+  category: classroom_management
+  features:
+  - secure_sync
+  - instant_login
+- partner_name: Google Workspace (own)
+  partner: google-workspace
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://workspace.google.com/marketplace/app/powerschool_unified_classroom/190562129324
+  mirror_of: google-workspace/integrations/google-workspace-integration-edges.yml
+  apps:
+  - PowerSchool Unified Classroom
+  listing_count: 1
+  detected: '2026-10-18'
+  detected_by: mirror-platform-listings.py
+  category: Google Workspace app
+- partner_name: Fivetran
+  partner: fivetran
+  partner_match: aggregator
+  type: marketplace
+  marketplace: fivetran-connectors
+  channel: elt-connector
+  relationship: ipaas-bridge
+  direction: third-party
+  evidence: https://fivetran.com/docs/connectors/applications/powerschool
+  category: null
+  contract_reference:
+    register: Fivetran connectors (fivetran.com/docs/connectors, docs-sitemap.xml + Partner-Built program)
+    spec_file: null
+    role: elt-connector:fivetran
+    registered_name: PowerSchool
+    matched_domain: powerschool.com
+    matched_by: domain
+    detected_by: sweep-data-integration.py
+    detected: '2026-10-18'
+    signal_note: one edge per (provider, platform); connectors, streams, packages and usage are context, never read
+    connector_paths:
+    - connectors/applications/powerschool
+    vendor_link: https://www.powerschool.com/
+    builder: Fivetran
+  detected_by: sweep-data-integration.py
+  first_seen: '2026-10-18'
 - partner_name: 1EdTech
   partner: null
   type: contract
@@ -440,8 +502,10 @@ edges:
     - product: PowerSchool Naviance CCLR
       version: v1.0
       standards:
-      - Data Privacy
-      implementation: null
+      - OneRoster 1.1
+      implementation:
+      - 'Gradebook: CSV Gradebook Import Bulk'
+      - 'Rostering: CSV Rostering Import Bulk'
       attributes:
       - AI Self-Assessed
       - Certified Product
@@ -502,7 +566,6 @@ edges:
       version: v1
       standards:
       - LTI Advantage
-      - LTI Advantage Complete
       - Learning Tools Interoperability (LTI) v1.3
       - OneRoster 1.1
       - OneRoster 1.2
@@ -516,7 +579,7 @@ edges:
       - 'Resources: REST Data Consumer Resources Core'
       - 'Resources: REST Data Consumer Resources Optional'
       - 'Rostering: REST Data Consumer Rostering Core'
-      - 'Type: Tool'
+      - 'Type: Platform (Consumer)'
       attributes:
       - Certified Product
       - Security Self-assessed
@@ -646,68 +709,6 @@ edges:
       lapsed: false
       url: https://site.imsglobal.org/certifications/powerschool-group-llc/schoolmessenger-communicate/v1
     detected_by: sweep-edtech.py
-    detected: '2026-10-14'
-- partner_name: Clever (clever-app-gallery)
-  partner: clever
-  partner_match: mirror
-  mirror_match: domain
-  type: marketplace
-  relationship: platform-app
-  direction: third-party
-  channel: partner-built
-  marketplace: clever-app-gallery
-  evidence: https://clever.com/app-gallery
-  mirror_of: clever/integrations/clever-integration-edges.yml
-  apps: []
-  listing_count: 3
-  detected: '2026-10-14'
-  detected_by: mirror-platform-listings.py
-  category: classroom_management
-  features:
-  - secure_sync
-  - instant_login
-- partner_name: Fivetran
-  partner: fivetran
-  partner_match: aggregator
-  type: marketplace
-  marketplace: fivetran-connectors
-  channel: elt-connector
-  relationship: ipaas-bridge
-  direction: third-party
-  evidence: https://fivetran.com/docs/connectors/applications/powerschool
-  category: null
-  contract_reference:
-    register: Fivetran connectors (fivetran.com/docs/connectors, docs-sitemap.xml + Partner-Built program)
-    spec_file: null
-    role: elt-connector:fivetran
-    registered_name: PowerSchool
-    matched_domain: powerschool.com
-    matched_by: domain
-    detected_by: sweep-data-integration.py
-    detected: '2026-10-18'
-    signal_note: one edge per (provider, platform); connectors, streams, packages and usage are context, never read
-    connector_paths:
-    - connectors/applications/powerschool
-    vendor_link: https://www.powerschool.com/
-    builder: Fivetran
-  detected_by: sweep-data-integration.py
-  first_seen: '2026-10-18'
-- partner_name: Google Workspace (own)
-  partner: google-workspace
-  partner_match: mirror
-  mirror_match: domain
-  type: marketplace
-  relationship: platform-app
-  direction: third-party
-  channel: partner-built
-  marketplace: own
-  evidence: https://workspace.google.com/marketplace/app/powerschool_unified_classroom/190562129324
-  mirror_of: google-workspace/integrations/google-workspace-integration-edges.yml
-  apps:
-  - PowerSchool Unified Classroom
-  listing_count: 1
-  detected: '2026-10-18'
-  detected_by: mirror-platform-listings.py
-  category: Google Workspace app
+    detected: '2026-10-19'
 source:
 - clever/integrations/clever-integration-edges.yml
